@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hero Quest - Tanam Pohon Virtual</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Lexend:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#007166",
+                        "surface-container-high": "#ebe7e5",
+                        "surface-tint": "#1b6d24",
+                        "tertiary-container": "#8c6800",
+                        "surface-dim": "#ddd9d7",
+                        "primary": "#0d631b",
+                        "surface-bright": "#fdf8f6",
+                        "outline-variant": "#bfcaba",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#002204",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#005048",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#f8bd2a",
+                        "on-tertiary-container": "#ffefd7",
+                        "tertiary": "#6e5100",
+                        "outline": "#707a6c",
+                        "surface-container-highest": "#e5e2e0",
+                        "surface-variant": "#e5e2e0",
+                        "on-secondary-fixed": "#00201c",
+                        "on-primary-fixed-variant": "#005312",
+                        "secondary-container": "#85f6e5",
+                        "tertiary-fixed": "#ffdfa0",
+                        "on-surface": "#1c1b1b",
+                        "primary-fixed-dim": "#88d982",
+                        "background": "#fdf8f6",
+                        "surface": "#fdf8f6",
+                        "surface-container": "#f1edeb",
+                        "primary-container": "#2e7d32",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#cbffc2",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1c1b1b",
+                        "secondary-fixed-dim": "#67d9c9",
+                        "inverse-on-surface": "#f4f0ee",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "on-error": "#ffffff",
+                        "secondary": "#006a60",
+                        "primary-fixed": "#a3f69c",
+                        "surface-container-low": "#f7f3f1",
+                        "inverse-surface": "#31302f",
+                        "secondary-fixed": "#85f6e5",
+                        "on-tertiary-fixed": "#261a00",
+                        "on-surface-variant": "#40493d",
+                        "inverse-primary": "#88d982"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "margin-page": "24px",
+                        "gutter-card": "16px",
+                        "padding-pill": "12px 24px",
+                        "stack-sm": "12px",
+                        "stack-md": "24px",
+                        "stack-lg": "40px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Lexend"],
+                        "title-lg": ["Lexend"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Lexend"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fdf8f6;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-background selection:bg-primary-fixed">
+<!-- TopAppBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-3 bg-stone-50/80 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center border-2 border-primary-fixed overflow-hidden">
+<img alt="User" data-alt="A stylized 3D avatar of a young modern environmentalist wearing a green explorer vest and a tech headset. The character is rendered in a soft, claymation-inspired 3D style with warm studio lighting. The background is a clean, bright neutral tone that emphasizes the vibrant greens and soft textures of the character design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkaXYn4I1aEFUfv9u_5zAowsMhTsS3daVGP3K2zsjeom3wfBH2xm1DcWAFn6K7egB37gvNHhgc6AG-F7SNqog8lm_X7qHRtrINn5yX9j3Ru_BlGh7_bFZTUeNpi3nVl696kmsf8UOuMuUrUe1aVrawYzV6_5K861yy3Mjom6QgV1cA5jr0WUaMIYvxCSEb-wh-KobUrvb0A4tM7STmKEQaN_D3QPEINIso7JhwMB6hfv4qo5ouGKTQZf8lsBv7boJ6Sf6USNo3XA"/>
+</div>
+<span class="font-plus-jakarta-sans text-xl font-extrabold text-emerald-800 dark:text-emerald-300 tracking-tighter">Hero Quest</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-1.5 bg-surface-container rounded-full shadow-inner">
+<span class="font-plus-jakarta-sans text-sm font-semibold tracking-tight text-emerald-700">1,250 XP • 450 HK</span>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-20 pb-32 px-margin-page min-h-screen relative overflow-hidden flex flex-col items-center">
+<!-- Hero Garden Scene -->
+<section class="w-full max-w-md aspect-[4/5] relative mt-4 rounded-xl overflow-hidden shadow-2xl bg-gradient-to-b from-sky-100 to-emerald-50">
+<!-- 3D Environment Mockup -->
+<div class="absolute inset-0 flex flex-col items-center justify-end pb-12">
+<div class="relative w-full h-full">
+<img class="w-full h-full object-cover" data-alt="A lush, vibrant 3D virtual garden scene at golden hour. In the center is a medium-sized Level 3 leafy oak tree with glowing emerald leaves, standing on a soft grassy mound. The aesthetic is high-end 3D mobile game art, featuring soft rounded shapes, tactile textures, and floating magical dust particles. Sunny yellow highlights and deep forest green shadows create a rich, inviting atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZwfodiWD89jVpXfmHFt8Zh77_1lAXaNag6V7_GYck4Wdpx17ZGtLhssg8sZV9_0T56dm2KXHRsPR0kLuW8s8NnMyK6njLFRBpXAoUBv6M42FDq6M3OxUBdu8U2UkcvKEWQAKppqsbPpI1xrnceyxe7lmkxbdAGyeHOJuxsXcDrS3XARBwrMOphkpNPoACIRm_dDoZLLfreseIA1VBwGgy4xQvHgmjpK5jTIyYG0rnDcNGk0BEQuCJTFjLh1TaasjAjzuFnC5HAQ"/>
+<!-- Level Badge -->
+<div class="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 bg-secondary-container rounded-full shadow-lg border-2 border-white/50">
+<span class="material-symbols-outlined text-on-secondary-container text-lg" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-label-caps text-on-secondary-container">LEVEL 3 TREE</span>
+</div>
+<!-- Growth Progress HUD -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] glass-panel rounded-lg p-4 shadow-xl border border-white/40">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-caps text-emerald-900">NEXT STAGE: MATURE OAK</span>
+<span class="font-label-caps text-emerald-700">75%</span>
+</div>
+<div class="h-4 w-full bg-emerald-100 rounded-full overflow-hidden border border-emerald-200/50 p-0.5">
+<div class="h-full w-[75%] bg-gradient-to-r from-primary to-secondary-fixed-dim rounded-full shadow-[0_0_10px_rgba(13,99,27,0.4)] relative">
+<div class="absolute top-0 right-0 w-2 h-full bg-white/40 animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interaction Buttons -->
+<section class="w-full max-w-md mt-stack-md grid grid-cols-2 gap-gutter-card">
+<button class="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-lg border-b-4 border-emerald-100 active:translate-y-1 active:border-b-0 transition-all">
+<div class="w-14 h-14 bg-secondary-container rounded-full flex items-center justify-center mb-3 shadow-md">
+<span class="material-symbols-outlined text-on-secondary-container text-3xl" style="font-variation-settings: 'FILL' 1;">opacity</span>
+</div>
+<span class="font-title-lg text-primary">Water</span>
+<span class="font-label-caps text-on-surface-variant mt-1">Free Daily</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-lg border-b-4 border-tertiary-fixed-dim active:translate-y-1 active:border-b-0 transition-all">
+<div class="w-14 h-14 bg-tertiary-fixed rounded-full flex items-center justify-center mb-3 shadow-md">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant text-3xl" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<span class="font-title-lg text-tertiary">Fertilize</span>
+<span class="font-label-caps text-tertiary-container mt-1">50 HK</span>
+</button>
+</section>
+<!-- Badges Collection -->
+<section class="w-full max-w-md mt-stack-md mb-8">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline-md text-on-surface">Garden Badges</h3>
+<span class="text-primary font-label-caps">View All</span>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 px-2 snap-x">
+<!-- Badge 1 -->
+<div class="flex-shrink-0 snap-center w-24 flex flex-col items-center gap-2">
+<div class="w-20 h-20 rounded-full bg-white shadow-md flex items-center justify-center p-2 relative">
+<img alt="Badge" data-alt="A stylized 3D trophy badge shaped like a crystal clear water droplet. The badge has a glossy, glass-like finish with gold metallic rimming. It is set against a soft emerald green background in a high-resolution mobile game asset style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5Y2ecGI4jVBFIOWLCr1gQmpGjL9rTFJCfvqBtWSFaIk-eT0r7Wj958tHXrmPVl1EMN0N8ECxaR4F-yUU1YWsgR69JjmrZAKPfTNdy-rOPufZMVPE09nBNLbwN2TkbywHKWvUrVe33uO80qnAVRsvunyXMk5xmHA4Otiy-DybT6jsfTE6wK9jSYnVeyB8OOjOzPDxiiYnjpFcGAkXgJdZjPQl726Y5AV2Hqw5xWFMCTQCI6pNMQymJKL0D6twykZMC5cSxF2chdA"/>
+<div class="absolute -top-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-[10px] text-white font-bold border-2 border-white">x5</div>
+</div>
+<span class="font-label-caps text-on-surface-variant text-center">Hydrator</span>
+</div>
+<!-- Badge 2 -->
+<div class="flex-shrink-0 snap-center w-24 flex flex-col items-center gap-2 opacity-50 grayscale">
+<div class="w-20 h-20 rounded-full bg-white shadow-sm flex items-center justify-center p-2">
+<img alt="Badge" data-alt="A stylized 3D game badge featuring a vibrant sun with a smiling face, rendered in a warm sunny yellow and orange palette. The badge has a tactile, clay-like appearance with a satin finish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5i2zgAF42lzzzlYGIWi1Kzl3xZI-A6HHTxgrH-M1IS2GZNAbJ6ss6ozYb0iVFzVfGQAc-dok2Y9v6MEByLEmJzt_Re-g9O9To7DkbOYac8Re2VjjnwjKMNUKU55_qQn6-hQCRmc681MbCr8RNIA6Ui6U5DoyvGKpTFkWGUtdebLtHHFepuqgKO2MhHkVETuk3HTy55rCP-IkGFEvohY8K6G4awXaMK1pMVBTM6kfVWanp2iOngmg_vsT5LgyIIPWlEd2k3Quymw"/>
+</div>
+<span class="font-label-caps text-on-surface-variant text-center">Sun Seeker</span>
+</div>
+<!-- Badge 3 -->
+<div class="flex-shrink-0 snap-center w-24 flex flex-col items-center gap-2">
+<div class="w-20 h-20 rounded-full bg-white shadow-md flex items-center justify-center p-2">
+<img alt="Badge" data-alt="A cute 3D birdhouse badge with a small blue bird peeking out. The art style is playful and eco-friendly, using soft pastel woods and vibrant sky blue accents, typical of a premium sustainability gaming app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi5EUhgvZWAse2ceufOcdSJj8_4ahb0VrttxLyHgrOIPOj0CJegn7ENDm1AB3PWuKfSgmi6huvEn_EHVAPYVZElav0YEwbuqaRUCSKRlPr5TRKtJh3WP-q4bqJvDu1Ox9cWJn8XBtZGA6X7nzspqRRIiRLGRu6PYLFns7fQHSYVdkd6QCGkmueU8FnsUJSc3E4NNePPKHKHGolsZ_yFzT1TAtjAklRqU3dh_czdCdmd-7fUqqGKKv2xAlAiEdbyOfDLnhNuVo4fw"/>
+</div>
+<span class="font-label-caps text-on-surface-variant text-center">Nester</span>
+</div>
+<!-- Badge 4 -->
+<div class="flex-shrink-0 snap-center w-24 flex flex-col items-center gap-2">
+<div class="w-20 h-20 rounded-full bg-white shadow-md flex items-center justify-center p-2">
+<img alt="Badge" data-alt="A magnificent 3D butterfly badge with iridescent purple and emerald wings. The wings have a slight glow effect, and the overall style is high-fidelity digital art with organic curves." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDh4gc_0nkWi2kIEHE4-ijlh2Z8WV2oJIhsrRV-Tm-1Blj6KvU5fEh2GkoJ8eQg_Votki5aJF0LdyzSqL9uSCCV_hvVA2AUuueYv0HkbLmyYi_ytUi5Qr53L84aTIkQq2CgBbxbQrgp-zNLHYNZ0sq8OrkCig_QVBvWwoHUjSHh1FZdY1skRXLBrq_cxy36tIfvSHrAvfL5ZjysQvYmDKPsSeNgDYhKAzSv0CNuDnvINezLwSCM-plUKBjEV-DnfQMiEK9FKAXvow"/>
+</div>
+<span class="font-label-caps text-on-surface-variant text-center">Pollinator</span>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB (Suppressed on Details screen, but included here if viewed as Home/Garden interaction) -->
+<button class="fixed bottom-28 right-6 w-16 h-16 bg-tertiary-fixed text-on-tertiary-fixed rounded-2xl shadow-xl flex items-center justify-center hover:scale-105 transition-transform z-40 border-b-4 border-tertiary-fixed-dim">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">add_photo_alternate</span>
+</button>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pt-3 pb-8 bg-white dark:bg-stone-950 shadow-[0_-8px_20px_rgba(46,125,50,0.1)] rounded-t-[32px]">
+<div class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1.5 hover:text-emerald-500 transition-all">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-plus-jakarta-sans text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1.5 hover:text-emerald-500 transition-all">
+<span class="material-symbols-outlined" data-icon="eco">eco</span>
+<span class="font-plus-jakarta-sans text-[10px] font-bold uppercase tracking-wider mt-1">Actions</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-teal-100 dark:bg-emerald-900/40 text-emerald-900 dark:text-emerald-100 rounded-full px-4 py-1.5 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="sports_esports" style="font-variation-settings: 'FILL' 1;">sports_esports</span>
+<span class="font-plus-jakarta-sans text-[10px] font-bold uppercase tracking-wider mt-1">Games</span>
+</div>
+<div class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1.5 hover:text-emerald-500 transition-all">
+<span class="material-symbols-outlined" data-icon="workspace_premium">workspace_premium</span>
+<span class="font-plus-jakarta-sans text-[10px] font-bold uppercase tracking-wider mt-1">Rewards</span>
+</div>
+<div class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1.5 hover:text-emerald-500 transition-all">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-plus-jakarta-sans text-[10px] font-bold uppercase tracking-wider mt-1">Profile</span>
+</div>
+</footer>
+</body></html>

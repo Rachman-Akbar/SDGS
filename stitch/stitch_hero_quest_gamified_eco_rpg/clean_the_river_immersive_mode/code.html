@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "outline-variant": "#bfcaba",
+            "on-tertiary-fixed-variant": "#5c4300",
+            "surface-bright": "#fdf8f6",
+            "background": "#fdf8f6",
+            "secondary-fixed": "#85f6e5",
+            "on-error-container": "#93000a",
+            "outline": "#707a6c",
+            "on-secondary-fixed": "#00201c",
+            "on-secondary-fixed-variant": "#005048",
+            "on-primary-fixed": "#002204",
+            "surface-tint": "#1b6d24",
+            "primary-fixed-dim": "#88d982",
+            "inverse-surface": "#31302f",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#005312",
+            "on-surface": "#1c1b1b",
+            "inverse-primary": "#88d982",
+            "surface-dim": "#ddd9d7",
+            "surface-container-high": "#ebe7e5",
+            "on-tertiary-fixed": "#261a00",
+            "primary-fixed": "#a3f69c",
+            "on-tertiary": "#ffffff",
+            "primary-container": "#2e7d32",
+            "tertiary-container": "#8c6800",
+            "secondary-container": "#85f6e5",
+            "surface-container-low": "#f7f3f1",
+            "on-tertiary-container": "#ffefd7",
+            "on-secondary-container": "#007166",
+            "on-primary-container": "#cbffc2",
+            "tertiary-fixed-dim": "#f8bd2a",
+            "secondary-fixed-dim": "#67d9c9",
+            "on-surface-variant": "#40493d",
+            "surface-container": "#f1edeb",
+            "primary": "#0d631b",
+            "on-error": "#ffffff",
+            "surface-container-highest": "#e5e2e0",
+            "on-background": "#1c1b1b",
+            "surface": "#fdf8f6",
+            "tertiary": "#6e5100",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "inverse-on-surface": "#f4f0ee",
+            "on-primary": "#ffffff",
+            "surface-variant": "#e5e2e0",
+            "secondary": "#006a60",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#ffdfa0"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "stack-sm": "12px",
+            "padding-pill": "12px 24px",
+            "gutter-card": "16px",
+            "base": "8px",
+            "stack-lg": "40px",
+            "stack-md": "24px",
+            "margin-page": "24px"
+          },
+          "fontFamily": {
+            "title-lg": ["Lexend"],
+            "label-caps": ["Lexend"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-md": ["Lexend"],
+            "display-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .river-gradient {
+      background: linear-gradient(180deg, #E0F2F1 0%, #B2DFDB 100%);
+    }
+    .glass-effect {
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.7);
+    }
+    .floating-trash {
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+  </style>
+<style>
+    body {
+      min-height: 100dvh;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-hidden">
+<!-- Game Canvas Area (Now occupying full screen) -->
+<main class="relative w-full h-screen river-gradient overflow-hidden">
+<!-- Game Controls: Exit and Settings -->
+<div class="absolute top-6 left-6 right-6 flex justify-between items-center z-50">
+<button class="w-12 h-12 rounded-full glass-effect flex items-center justify-center border border-white/50 shadow-lg text-on-surface-variant hover:bg-white transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+<button class="w-12 h-12 rounded-full glass-effect flex items-center justify-center border border-white/50 shadow-lg text-on-surface-variant hover:bg-white transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<!-- Game HUD: Timer and Score (Adjusted positioning) -->
+<div class="absolute top-24 left-0 w-full px-6 flex justify-between items-start z-10">
+<div class="glass-effect rounded-xl p-3 flex flex-col items-center min-w-[80px] border border-white/50 shadow-lg">
+<span class="font-label-caps text-primary text-[10px] uppercase">Time</span>
+<span class="font-display-lg text-primary text-2xl">0:48</span>
+</div>
+<div class="glass-effect rounded-xl p-3 flex flex-col items-center min-w-[120px] border border-white/50 shadow-lg">
+<span class="font-label-caps text-secondary text-[10px] uppercase">Trash Collected</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary" data-icon="delete">delete</span>
+<span class="font-display-lg text-secondary text-2xl">14/25</span>
+</div>
+</div>
+</div>
+<!-- River Elements (Background Decoration) -->
+<div class="absolute inset-0 pointer-events-none opacity-40">
+<span class="material-symbols-outlined absolute top-[30%] left-[10%] text-6xl text-secondary-container" data-icon="water_lux">water_lux</span>
+<span class="material-symbols-outlined absolute top-[60%] left-[80%] text-5xl text-secondary-container" data-icon="waves">waves</span>
+</div>
+<!-- Interactive Game Layer -->
+<div class="relative w-full h-full flex flex-col items-center justify-center p-6">
+<!-- Safe Zones (Avoidance Objects) -->
+<div class="absolute top-[30%] right-[15%] flex flex-col items-center opacity-90 animate-pulse">
+<span class="material-symbols-outlined text-primary text-5xl" data-icon="set_meal">set_meal</span>
+<span class="font-label-caps text-primary text-[8px] bg-primary-fixed/50 px-2 py-0.5 rounded-full">AVOID FISH</span>
+</div>
+<div class="absolute bottom-[30%] left-[12%] flex flex-col items-center opacity-90">
+<span class="material-symbols-outlined text-primary text-6xl" data-icon="eco">eco</span>
+<span class="font-label-caps text-primary text-[8px] bg-primary-fixed/50 px-2 py-0.5 rounded-full">DON'T PULL PLANTS</span>
+</div>
+<!-- Trash Items (Collectibles) -->
+<div class="absolute top-[45%] left-[25%] floating-trash cursor-pointer hover:scale-110 active:scale-95 transition-transform">
+<div class="bg-white/80 p-4 rounded-full shadow-lg border-2 border-stone-200">
+<span class="material-symbols-outlined text-stone-600 text-3xl" data-icon="mode_bottle">mode</span>
+</div>
+</div>
+<div class="absolute top-[20%] left-[50%] floating-trash cursor-pointer hover:scale-110 active:scale-95 transition-transform">
+<div class="bg-white/80 p-3 rounded-full shadow-lg border-2 border-stone-200">
+<span class="material-symbols-outlined text-stone-600 text-2xl" data-icon="shopping_bag">shopping_bag</span>
+</div>
+</div>
+<div class="absolute bottom-[40%] right-[20%] floating-trash cursor-pointer hover:scale-110 active:scale-95 transition-transform">
+<div class="bg-white/80 p-5 rounded-full shadow-lg border-2 border-stone-200">
+<span class="material-symbols-outlined text-stone-600 text-4xl" data-icon="fastfood">fastfood</span>
+</div>
+</div>
+<div class="absolute top-[60%] left-[65%] floating-trash cursor-pointer hover:scale-110 active:scale-95 transition-transform">
+<div class="bg-white/80 p-3 rounded-full shadow-lg border-2 border-stone-200">
+<span class="material-symbols-outlined text-stone-600 text-2xl" data-icon="inventory">inventory</span>
+</div>
+</div>
+<!-- Collection Bin (The Goal) -->
+<div class="absolute bottom-12 right-6">
+<div class="bg-primary flex flex-col items-center justify-center w-32 h-32 rounded-full border-4 border-white shadow-2xl relative">
+<span class="material-symbols-outlined text-white text-5xl" data-icon="delete_sweep">delete_sweep</span>
+<div class="absolute -top-2 bg-tertiary text-on-tertiary font-label-caps px-3 py-1 rounded-full text-[10px] shadow-md">
+            DROP HERE
+          </div>
+</div>
+</div>
+</div>
+<!-- Gameplay Toast Notification (Reward Streak) -->
+<div class="fixed bottom-32 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+<div class="bg-secondary-container text-on-secondary-container px-6 py-3 rounded-xl flex items-center gap-3 shadow-xl border-2 border-white animate-bounce-subtle">
+<div class="bg-white rounded-full p-1">
+<span class="material-symbols-outlined text-secondary" data-icon="celebration" style="font-variation-settings: 'FILL' 1;">celebration</span>
+</div>
+<div>
+<p class="font-label-caps text-[10px] uppercase opacity-70">Combo Bonus</p>
+<p class="font-title-lg text-sm">+25 Hero Koins!</p>
+</div>
+</div>
+</div>
+<!-- Progress Bar Overlay (Pinned to bottom of full height screen) -->
+<div class="fixed bottom-8 left-0 w-full px-8 z-20">
+<div class="w-full h-4 bg-white/40 rounded-full overflow-hidden border border-white/20 glass-effect">
+<div class="h-full w-[60%] bg-gradient-to-r from-secondary to-primary rounded-full relative">
+<div class="absolute right-0 top-0 h-full w-2 bg-white/40 animate-pulse"></div>
+</div>
+</div>
+<div class="flex justify-between mt-2 px-2">
+<span class="font-label-caps text-[10px] text-primary">REACH 25 TO WIN</span>
+<span class="font-label-caps text-[10px] text-primary">LVL 1 REWARD: 50HK</span>
+</div>
+</div>
+</main>
+<!-- Decorative floating background elements -->
+<div class="fixed inset-0 pointer-events-none z-0">
+<div class="absolute top-[20%] right-[5%] w-32 h-32 bg-secondary-fixed/10 rounded-full blur-3xl"></div>
+<div class="absolute bottom-[10%] left-[10%] w-48 h-48 bg-primary-fixed/20 rounded-full blur-3xl"></div>
+</div>
+</body></html>

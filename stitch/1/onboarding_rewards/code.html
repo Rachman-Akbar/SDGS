@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-container": "#007166",
+            "surface-container-high": "#ebe7e5",
+            "surface-tint": "#1b6d24",
+            "tertiary-container": "#8c6800",
+            "surface-dim": "#ddd9d7",
+            "primary": "#0d631b",
+            "surface-bright": "#fdf8f6",
+            "outline-variant": "#bfcaba",
+            "on-secondary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed": "#002204",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#005048",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#f8bd2a",
+            "on-tertiary-container": "#ffefd7",
+            "tertiary": "#6e5100",
+            "outline": "#707a6c",
+            "surface-container-highest": "#e5e2e0",
+            "surface-variant": "#e5e2e0",
+            "on-secondary-fixed": "#00201c",
+            "on-primary-fixed-variant": "#005312",
+            "secondary-container": "#85f6e5",
+            "tertiary-fixed": "#ffdfa0",
+            "on-surface": "#1c1b1b",
+            "primary-fixed-dim": "#88d982",
+            "background": "#fdf8f6",
+            "surface": "#fdf8f6",
+            "surface-container": "#f1edeb",
+            "primary-container": "#2e7d32",
+            "surface-container-lowest": "#ffffff",
+            "on-error-container": "#93000a",
+            "on-primary-container": "#cbffc2",
+            "error-container": "#ffdad6",
+            "on-background": "#1c1b1b",
+            "secondary-fixed-dim": "#67d9c9",
+            "inverse-on-surface": "#f4f0ee",
+            "on-tertiary-fixed-variant": "#5c4300",
+            "on-error": "#ffffff",
+            "secondary": "#006a60",
+            "primary-fixed": "#a3f69c",
+            "surface-container-low": "#f7f3f1",
+            "inverse-surface": "#31302f",
+            "secondary-fixed": "#85f6e5",
+            "on-tertiary-fixed": "#261a00",
+            "on-surface-variant": "#40493d",
+            "inverse-primary": "#88d982"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "base": "8px",
+            "margin-page": "24px",
+            "gutter-card": "16px",
+            "padding-pill": "12px 24px",
+            "stack-sm": "12px",
+            "stack-md": "24px",
+            "stack-lg": "40px"
+          },
+          "fontFamily": {
+            "body-md": ["Lexend"],
+            "title-lg": ["Lexend"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-caps": ["Lexend"],
+            "display-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+            "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+            "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .hero-koin-glow {
+      box-shadow: 0 0 20px rgba(248, 189, 42, 0.4);
+    }
+    .organic-blob {
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col overflow-x-hidden">
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-3 bg-stone-50/80 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs">
+        UH
+      </div>
+<span class="font-plus-jakarta-sans text-xl font-extrabold text-emerald-800 dark:text-emerald-300 tracking-tighter">Hero Quest</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full shadow-inner">
+<span class="material-symbols-outlined text-tertiary text-[18px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-plus-jakarta-sans text-sm font-semibold tracking-tight text-emerald-700">1,250 XP • 450 HK</span>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center pt-24 pb-32 px-margin-page relative">
+<div class="absolute top-32 left-10 w-32 h-32 bg-primary/5 organic-blob -z-10"></div>
+<div class="absolute bottom-64 right-5 w-48 h-48 bg-secondary/5 organic-blob -z-10"></div>
+<div class="w-full max-w-md flex flex-col items-center">
+<div class="relative w-full aspect-square mb-stack-lg flex items-center justify-center">
+<div class="absolute inset-0 bg-gradient-to-b from-primary-container/10 to-transparent rounded-full opacity-50 blur-3xl"></div>
+<div class="relative z-10 w-full h-full flex flex-col items-center justify-center">
+<img alt="Character recycling and getting rewards" class="w-full h-full object-contain" data-alt="A vibrant 3D character with a playful, stylized aesthetic happily placing a bottle into a high-tech, eco-friendly recycling bin. Floating around the character are glowing, golden 'Hero Koins' with a stamped H glyph, illuminated by soft sunlight. The setting is a clean, lush green park with soft-focus foliage in the background. The lighting is bright and cheerful, using a palette of emerald greens, sunny yellows, and soft earth tones to convey a premium, gamified wellness atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnEVp-Q4UCGgiCkRHUhpSly9iyheJ3fhtKFA5NaZs4qBrt_DS4SnTmWg25prE2iso-bmosnZkCYB5jlLCPfWhaWbgVJW5o1tkzLdGlcVx8rHISCWq-OBJmoxbdB1mjvY3dS97-AifObmf39iOsNH7GqRVzEFJujYmG39wZOHN8OyN_ASfK7QpW2gq5ckEp2gV8t5vOPMbjWTmtjnfB5iGODQs6gypkwgN0qrEQzXTComcqU4sztZgUUxRabvKDHzeRF57Y9w4keQ"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg flex items-center gap-2 animate-bounce">
+<div class="w-8 h-8 bg-tertiary-fixed rounded-full flex items-center justify-center hero-koin-glow">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] text-tertiary leading-none">REWARD</span>
+<span class="font-title-lg text-primary leading-none">+25 HK</span>
+</div>
+</div>
+<div class="absolute bottom-8 left-0 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg flex flex-col gap-1 border-l-4 border-primary">
+<span class="font-label-caps text-[10px] text-outline leading-none uppercase">Action Logged</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">recycling</span>
+<span class="font-title-lg text-on-surface leading-none">Plastic Sorting</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center space-y-stack-sm mb-stack-lg">
+<h1 class="font-display-lg text-display-lg text-on-surface">Take Action, Get Rewarded.</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[280px] mx-auto">
+          Turn real-world eco habits into <span class="text-primary font-bold">XP</span> and <span class="text-tertiary font-bold">Hero Koins</span>.
+        </p>
+</div>
+<div class="flex gap-2 mb-stack-lg">
+<div class="h-2 w-2 rounded-full bg-surface-container-highest"></div>
+<div class="h-2 w-8 rounded-full bg-primary shadow-sm shadow-primary/30"></div>
+<div class="h-2 w-2 rounded-full bg-surface-container-highest"></div>
+</div>
+</div>
+</main>
+<footer class="fixed bottom-0 left-0 w-full p-margin-page bg-gradient-to-t from-background via-background to-transparent pb-10 flex flex-col items-center gap-4">
+<button class="w-full max-w-md py-4 bg-primary text-on-primary font-title-lg rounded-full shadow-[0_8px_20px_rgba(13,99,27,0.3)] hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 group">
+      Next
+      <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+<button class="font-label-caps text-outline hover:text-primary transition-colors py-2">
+      Skip Intro
+    </button>
+</footer>
+</body></html>

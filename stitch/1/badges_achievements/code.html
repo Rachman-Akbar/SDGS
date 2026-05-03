@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#007166",
+                    "surface-container-high": "#ebe7e5",
+                    "surface-tint": "#1b6d24",
+                    "tertiary-container": "#8c6800",
+                    "surface-dim": "#ddd9d7",
+                    "primary": "#0d631b",
+                    "surface-bright": "#fdf8f6",
+                    "outline-variant": "#bfcaba",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#002204",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#005048",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed-dim": "#f8bd2a",
+                    "on-tertiary-container": "#ffefd7",
+                    "tertiary": "#6e5100",
+                    "outline": "#707a6c",
+                    "surface-container-highest": "#e5e2e0",
+                    "surface-variant": "#e5e2e0",
+                    "on-secondary-fixed": "#00201c",
+                    "on-primary-fixed-variant": "#005312",
+                    "secondary-container": "#85f6e5",
+                    "tertiary-fixed": "#ffdfa0",
+                    "on-surface": "#1c1b1b",
+                    "primary-fixed-dim": "#88d982",
+                    "background": "#fdf8f6",
+                    "surface": "#fdf8f6",
+                    "surface-container": "#f1edeb",
+                    "primary-container": "#2e7d32",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-primary-container": "#cbffc2",
+                    "error-container": "#ffdad6",
+                    "on-background": "#1c1b1b",
+                    "secondary-fixed-dim": "#67d9c9",
+                    "inverse-on-surface": "#f4f0ee",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "on-error": "#ffffff",
+                    "secondary": "#006a60",
+                    "primary-fixed": "#a3f69c",
+                    "surface-container-low": "#f7f3f1",
+                    "inverse-surface": "#31302f",
+                    "secondary-fixed": "#85f6e5",
+                    "on-tertiary-fixed": "#261a00",
+                    "on-surface-variant": "#40493d",
+                    "inverse-primary": "#88d982"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "margin-page": "24px",
+                    "gutter-card": "16px",
+                    "padding-pill": "12px 24px",
+                    "stack-sm": "12px",
+                    "stack-md": "24px",
+                    "stack-lg": "40px"
+            },
+            "fontFamily": {
+                    "body-md": ["Lexend"],
+                    "title-lg": ["Lexend"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-caps": ["Lexend"],
+                    "display-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .badge-gradient {
+            background: radial-gradient(circle at center, var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%);
+        }
+        .glass-overlay {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body-md text-on-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-3 bg-stone-50/80 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed overflow-hidden flex items-center justify-center">
+<img alt="User Hero Avatar" class="w-full h-full object-cover" data-alt="A high-quality 3D rendered avatar of a heroic character with a nature-inspired design. The character has soft, friendly features and is wearing a green-and-gold futuristic eco-suit. The background is a clean, bright white reflecting a modern light-mode interface aesthetic. The lighting is soft and cinematic, highlighting the vibrant emerald green accents of the character's gear." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV7BmXRFeQM0SSee5xhYdU10WcOsDKnszBF8v2kVkVpi1Ka-3WIezIx7WxAMyTRb9lgTKG1vHnRouF5Nz8ymS_JjfRT7nxtBD4h9bFs3vl85ImzNpw2WHydyF4zWH2Ce-fgkV9A6r13QNkyDThPNfT0rtjM7SCEv1KD_pw6OG3V7ZDiBiM9UsiG5nj7SJbv35z8EhPMgxkZQTJNv_lIbs_Zkc9hvHHw6joS_WrJ3TKKVnHMavp5-5-1SMp3qVhpTFkZfULPXtN6w"/>
+</div>
+<h1 class="text-xl font-extrabold text-emerald-800 dark:text-emerald-300 tracking-tighter">Hero Quest</h1>
+</div>
+<div class="font-plus-jakarta-sans text-sm font-semibold tracking-tight text-emerald-700 dark:text-emerald-400 bg-primary-fixed/30 px-3 py-1 rounded-full">
+            1,250 XP • 450 HK
+        </div>
+</header>
+<main class="pt-20 px-margin-page">
+<!-- Hero Header Section -->
+<section class="mb-stack-lg text-center mt-6">
+<h2 class="font-display-lg text-display-lg text-primary mb-2">Hall of Heroes</h2>
+<p class="font-body-md text-on-surface-variant max-w-xs mx-auto">Your journey to restore the Earth, one achievement at a time.</p>
+</section>
+<!-- Achievement Categories -->
+<div class="space-y-stack-lg">
+<!-- Category: Earth Guardian -->
+<section>
+<div class="flex justify-between items-end mb-4 px-1">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Earth Guardian</h3>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">3 / 5 Unlocked</p>
+</div>
+<div class="w-24 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="w-3/5 h-full bg-primary-container"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-gutter-card">
+<!-- Badge Card: Unlocked -->
+<div class="bg-surface-container-lowest p-gutter-card rounded-lg shadow-[0_8px_20px_rgba(46,125,50,0.1)] flex flex-col items-center text-center relative group active:scale-95 duration-150">
+<div class="w-20 h-20 rounded-full bg-primary-fixed flex items-center justify-center mb-3 shadow-lg border-4 border-primary-container/20">
+<span class="material-symbols-outlined text-4xl text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface leading-tight">Eco Habit</h4>
+<p class="font-label-caps text-label-caps text-on-secondary-container mt-1">LVL 3</p>
+</div>
+<!-- Badge Card: Unlocked -->
+<div class="bg-surface-container-lowest p-gutter-card rounded-lg shadow-[0_8px_20px_rgba(46,125,50,0.1)] flex flex-col items-center text-center relative group active:scale-95 duration-150">
+<div class="w-20 h-20 rounded-full bg-secondary-fixed flex items-center justify-center mb-3 shadow-lg border-4 border-secondary/20">
+<span class="material-symbols-outlined text-4xl text-secondary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">forest</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface leading-tight">Tree Hugger</h4>
+<p class="font-label-caps text-label-caps text-on-secondary-container mt-1">MASTER</p>
+</div>
+<!-- Badge Card: Locked -->
+<div class="bg-surface-container p-gutter-card rounded-lg flex flex-col items-center text-center relative grayscale">
+<div class="w-20 h-20 rounded-full bg-surface-dim flex items-center justify-center mb-3 border-4 border-dashed border-outline">
+<span class="material-symbols-outlined text-4xl text-outline-variant">lock</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-outline leading-tight">SDG Master</h4>
+<p class="font-label-caps text-label-caps text-outline mt-1">LOCKED</p>
+</div>
+<!-- Badge Card: Unlocked -->
+<div class="bg-surface-container-lowest p-gutter-card rounded-lg shadow-[0_8px_20px_rgba(46,125,50,0.1)] flex flex-col items-center text-center relative group active:scale-95 duration-150">
+<div class="w-20 h-20 rounded-full bg-tertiary-fixed flex items-center justify-center mb-3 shadow-lg border-4 border-tertiary/20">
+<span class="material-symbols-outlined text-4xl text-tertiary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">sunny</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface leading-tight">Solar Flare</h4>
+<p class="font-label-caps text-label-caps text-on-tertiary-fixed-variant mt-1">ELITE</p>
+</div>
+</div>
+</section>
+<!-- Category: Social Champion -->
+<section>
+<div class="flex justify-between items-end mb-4 px-1">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Social Champion</h3>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">1 / 4 Unlocked</p>
+</div>
+<div class="w-24 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="w-1/4 h-full bg-primary-container"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-gutter-card">
+<!-- Badge Card: Unlocked -->
+<div class="bg-surface-container-lowest p-gutter-card rounded-lg shadow-[0_8px_20px_rgba(46,125,50,0.1)] flex flex-col items-center text-center relative group active:scale-95 duration-150">
+<div class="w-20 h-20 rounded-full bg-sky-100 flex items-center justify-center mb-3 shadow-lg border-4 border-sky-600/20">
+<span class="material-symbols-outlined text-4xl text-sky-700" data-weight="fill" style="font-variation-settings: 'FILL' 1;">groups</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface leading-tight">Unity Seed</h4>
+<p class="font-label-caps text-label-caps text-sky-700 mt-1">FOUNDER</p>
+</div>
+<!-- Badge Card: Locked -->
+<div class="bg-surface-container p-gutter-card rounded-lg flex flex-col items-center text-center relative grayscale">
+<div class="w-20 h-20 rounded-full bg-surface-dim flex items-center justify-center mb-3 border-4 border-dashed border-outline">
+<span class="material-symbols-outlined text-4xl text-outline-variant">lock</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-outline leading-tight">World Speaker</h4>
+<p class="font-label-caps text-label-caps text-outline mt-1">LOCKED</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Popup / Modal Simulation (Active State) -->
+<!-- In a real UI, this would be toggled. Here it's shown for design purposes. -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center px-6">
+<div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm"></div>
+<div class="relative bg-surface-container-lowest w-full max-w-sm rounded-xl p-8 flex flex-col items-center shadow-2xl border-2 border-primary-fixed">
+<div class="absolute -top-12 w-24 h-24 rounded-full bg-primary flex items-center justify-center shadow-xl">
+<span class="material-symbols-outlined text-5xl text-on-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div class="mt-8 text-center">
+<h3 class="font-display-lg text-headline-md text-primary mb-1">Eco Habit Unlocked!</h3>
+<p class="font-body-md text-on-surface-variant mb-6">You've completed 21 consecutive days of sustainable actions. A true planet protector!</p>
+<div class="bg-surface-container-low w-full rounded-lg py-4 px-6 mb-8 flex items-center justify-between">
+<div class="text-left">
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Achieved On</p>
+<p class="font-title-lg text-body-md text-on-surface">Oct 24, 2023</p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Rarity</p>
+<p class="font-title-lg text-body-md text-secondary font-bold">LEGENDARY</p>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary-container font-lexend font-bold py-4 rounded-full shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">share</span>
+                        Share Achievement
+                    </button>
+<button class="mt-4 text-on-surface-variant font-label-caps uppercase tracking-widest text-xs hover:text-primary transition-colors">
+                        Close
+                    </button>
+</div>
+<!-- Animated Confetti Decoration (CSS Only Simulation) -->
+<div class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden rounded-xl">
+<div class="absolute top-4 left-4 w-2 h-2 bg-tertiary rounded-full animate-bounce"></div>
+<div class="absolute top-12 right-8 w-3 h-3 bg-secondary rounded-full animate-pulse"></div>
+<div class="absolute bottom-16 left-12 w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB: Quick Action (Suppressed on Details, but appropriate for Achievement browsing) -->
+<button class="fixed bottom-28 right-6 w-16 h-16 bg-[#FBC02D] text-on-tertiary-fixed rounded-full shadow-2xl flex items-center justify-center z-40 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl font-bold">add_task</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pt-3 pb-6 bg-white dark:bg-stone-950 docked full-width bottom-0 rounded-t-[32px] border-t border-stone-100 dark:border-stone-800 shadow-[0_-8px_20px_rgba(46,125,50,0.1)]">
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1.5 hover:text-emerald-500 dark:hover:text-emerald-300 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-plus-jakarta-sans text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1.5 hover:text-emerald-500 dark:hover:text-emerald-300 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="eco">eco</span>
+<span class="font-plus-jakarta-sans text-[10px] font-bold uppercase tracking-wider mt-1">Actions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1.5 hover:text-emerald-500 dark:hover:text-emerald-300 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="sports_esports">sports_esports</span>
+<span class="font-plus-jakarta-sans text-[10px] font-bold uppercase tracking-wider mt-1">Games</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-teal-100 dark:bg-emerald-900/40 text-emerald-900 dark:text-emerald-100 rounded-full px-4 py-1.5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="workspace_premium" data-weight="fill" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-plus-jakarta-sans text-[10px] font-bold uppercase tracking-wider mt-1">Rewards</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-1.5 hover:text-emerald-500 dark:hover:text-emerald-300 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-plus-jakarta-sans text-[10px] font-bold uppercase tracking-wider mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

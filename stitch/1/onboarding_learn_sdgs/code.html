@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fdf8f6;
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#007166",
+                        "surface-container-high": "#ebe7e5",
+                        "surface-tint": "#1b6d24",
+                        "tertiary-container": "#8c6800",
+                        "surface-dim": "#ddd9d7",
+                        "primary": "#0d631b",
+                        "surface-bright": "#fdf8f6",
+                        "outline-variant": "#bfcaba",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#002204",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#005048",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#f8bd2a",
+                        "on-tertiary-container": "#ffefd7",
+                        "tertiary": "#6e5100",
+                        "outline": "#707a6c",
+                        "surface-container-highest": "#e5e2e0",
+                        "surface-variant": "#e5e2e0",
+                        "on-secondary-fixed": "#00201c",
+                        "on-primary-fixed-variant": "#005312",
+                        "secondary-container": "#85f6e5",
+                        "tertiary-fixed": "#ffdfa0",
+                        "on-surface": "#1c1b1b",
+                        "primary-fixed-dim": "#88d982",
+                        "background": "#fdf8f6",
+                        "surface": "#fdf8f6",
+                        "surface-container": "#f1edeb",
+                        "primary-container": "#2e7d32",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#cbffc2",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1c1b1b",
+                        "secondary-fixed-dim": "#67d9c9",
+                        "inverse-on-surface": "#f4f0ee",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "on-error": "#ffffff",
+                        "secondary": "#006a60",
+                        "primary-fixed": "#a3f69c",
+                        "surface-container-low": "#f7f3f1",
+                        "inverse-surface": "#31302f",
+                        "secondary-fixed": "#85f6e5",
+                        "on-tertiary-fixed": "#261a00",
+                        "on-surface-variant": "#40493d",
+                        "inverse-primary": "#88d982"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "margin-page": "24px",
+                        "gutter-card": "16px",
+                        "padding-pill": "12px 24px",
+                        "stack-sm": "12px",
+                        "stack-md": "24px",
+                        "stack-lg": "40px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Lexend"],
+                        "title-lg": ["Lexend"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Lexend"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface min-h-screen flex flex-col bg-surface overflow-hidden">
+<!-- Top App Bar (Suppressed because Transactional/Onboarding, but Logo remains for brand identity) -->
+<header class="flex justify-center items-center py-6 px-margin-page">
+<h1 class="text-emerald-800 font-display-lg text-2xl tracking-tighter">Hero Quest</h1>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center px-margin-page relative">
+<!-- Main Illustration Container -->
+<div class="relative w-full max-w-sm aspect-square mb-stack-lg">
+<!-- Decorative Blobs for "Eco-Friendly Twist" -->
+<div class="absolute -top-4 -left-4 w-32 h-32 bg-secondary-container opacity-40 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-8 -right-8 w-48 h-48 bg-primary-fixed opacity-30 rounded-full blur-3xl"></div>
+<!-- Character Illustration Card -->
+<div class="relative w-full h-full rounded-lg bg-white shadow-[0_20px_40px_rgba(13,99,27,0.1)] overflow-hidden flex items-center justify-center p-gutter-card">
+<img alt="Sustainable Development Hero" class="w-full h-full object-contain rounded-lg" data-alt="A vibrant, high-end 3D character design of a youthful eco-hero wearing modern tech gear and a green cape, exploring a digital landscape of floating icons representing the 17 SDGs. The scene is illuminated with soft, professional studio lighting against a clean, warm white background, utilizing a premium Material 3 aesthetic. Rich emerald greens and sunny yellows dominate the palette, creating a mood of empowered wellness and heroic purpose in a playful, gaming-inspired environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkbz0q7iaCc17ouWc9idXmVpsQ2LHOZcAhWnCD4ncRraBFWsUdUIf29O1ozOsSoqiAXqeMW5omKB2x_paQWKJhF9MSN-uuXZVopmKi-N-V3z0ZQsIVrXRvupSaIGkG8cDuc904HpOlXjA7m6kdhcYLLjpG0NtU8jSDmmqaCkRzPfyNpeBaqMqczJ_drJI0cIOA_9g4S_wR4oJx-B5EgN2uMD_YFGdtqQFi-x81y0tTjyZ2Oh-rutL0sNWLcK7sjNKZ9Bttv9Zf5Q"/>
+</div>
+</div>
+<!-- Content Section -->
+<div class="w-full max-w-md text-center flex flex-col items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-stack-sm leading-tight">
+                Your Mission Starts Here.
+            </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-lg max-w-[280px]">
+                Learn about the 17 SDGs through interactive challenges.
+            </p>
+</div>
+<!-- Page Indicator -->
+<div class="flex gap-2 mb-stack-lg">
+<div class="h-2 w-8 rounded-full bg-primary transition-all"></div>
+<div class="h-2 w-2 rounded-full bg-surface-container-highest"></div>
+<div class="h-2 w-2 rounded-full bg-surface-container-highest"></div>
+</div>
+<!-- Actions -->
+<div class="w-full max-w-sm flex flex-col gap-4">
+<button class="w-full py-5 rounded-full bg-primary text-on-primary font-title-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-95 transition-all">
+                Next
+                <span class="material-symbols-outlined font-bold group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-full py-3 rounded-full text-primary font-label-caps uppercase hover:bg-primary/5 transition-colors">
+                Skip
+            </button>
+</div>
+</main>
+<!-- Decorative Elements -->
+<div class="fixed top-20 right-10 opacity-20 pointer-events-none">
+<span class="material-symbols-outlined text-primary text-6xl" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div class="fixed bottom-40 left-6 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-tertiary text-7xl" style="font-variation-settings: 'FILL' 1;">public</span>
+</div>
+</body></html>

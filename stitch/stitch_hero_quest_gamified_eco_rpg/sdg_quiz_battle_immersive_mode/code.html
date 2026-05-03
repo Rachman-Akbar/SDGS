@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#bfcaba",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "surface-bright": "#fdf8f6",
+                        "background": "#fdf8f6",
+                        "secondary-fixed": "#85f6e5",
+                        "on-error-container": "#93000a",
+                        "outline": "#707a6c",
+                        "on-secondary-fixed": "#00201c",
+                        "on-secondary-fixed-variant": "#005048",
+                        "on-primary-fixed": "#002204",
+                        "surface-tint": "#1b6d24",
+                        "primary-fixed-dim": "#88d982",
+                        "inverse-surface": "#31302f",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#005312",
+                        "on-surface": "#1c1b1b",
+                        "inverse-primary": "#88d982",
+                        "surface-dim": "#ddd9d7",
+                        "surface-container-high": "#ebe7e5",
+                        "on-tertiary-fixed": "#261a00",
+                        "primary-fixed": "#a3f69c",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#2e7d32",
+                        "tertiary-container": "#8c6800",
+                        "secondary-container": "#85f6e5",
+                        "surface-container-low": "#f7f3f1",
+                        "on-tertiary-container": "#ffefd7",
+                        "on-secondary-container": "#007166",
+                        "on-primary-container": "#cbffc2",
+                        "tertiary-fixed-dim": "#f8bd2a",
+                        "secondary-fixed-dim": "#67d9c9",
+                        "on-surface-variant": "#40493d",
+                        "surface-container": "#f1edeb",
+                        "primary": "#0d631b",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e5e2e0",
+                        "on-background": "#1c1b1b",
+                        "surface": "#fdf8f6",
+                        "tertiary": "#6e5100",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f4f0ee",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e5e2e0",
+                        "secondary": "#006a60",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdfa0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "12px",
+                        "padding-pill": "12px 24px",
+                        "gutter-card": "16px",
+                        "base": "8px",
+                        "stack-lg": "40px",
+                        "stack-md": "24px",
+                        "margin-page": "24px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Lexend"],
+                        "label-caps": ["Lexend"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Lexend"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .animate-bounce-subtle {
+            animation: bounce-subtle 2s infinite;
+        }
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        body {
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- Immersive Controls -->
+<div class="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6 pointer-events-none">
+<button class="pointer-events-auto w-12 h-12 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-md shadow-md border border-outline-variant active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="close">close</span>
+</button>
+<button class="pointer-events-auto w-12 h-12 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-md shadow-md border border-outline-variant active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="settings">settings</span>
+</button>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-16 pb-12 px-margin-page space-y-stack-md flex flex-col justify-center max-w-2xl mx-auto w-full">
+<!-- Quiz Header & Progress -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary">SDG Quiz Battle</h1>
+<p class="font-body-md text-on-surface-variant">Daily Quest: Earth Guardian</p>
+</div>
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-1 text-tertiary font-bold">
+<span class="material-symbols-outlined text-[20px]" data-icon="timer">timer</span>
+<span class="text-title-lg">00:45</span>
+</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="space-y-2">
+<div class="flex justify-between text-label-caps text-on-surface-variant">
+<span>Question 3 of 5</span>
+<span>60% Complete</span>
+</div>
+<div class="w-full h-3 bg-outline-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[60%] rounded-full shadow-[0_0_8px_rgba(46,125,50,0.4)]"></div>
+</div>
+</div>
+</section>
+<!-- Quiz Interface Card -->
+<div class="glass-card p-gutter-card rounded-lg border border-white shadow-[0_8px_20px_rgba(46,125,50,0.1)] space-y-6 flex-grow flex flex-col justify-between">
+<div class="space-y-4">
+<div class="w-full aspect-video rounded-DEFAULT overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A minimalist 2D vector illustration of a lush, thriving coral reef ecosystem. The artwork uses a clean, flat design style with vibrant shades of teal and emerald. The lighting is soft and high-key, suggesting a healthy underwater environment. The composition is centered and balanced, reflecting the calm and focused mood of an educational quiz interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-R1V14CYopYJGm82mOdC74yf2bWt5e7G6tFlArs6UWD-yCliWU_i8ZYfOpjrmcZMc1COlMbwi2Q1Xvr_iOwBS5Oh9jtIx9XbNbGRVVUuKH-E3SEDOoaGlkKjdDy5CE6j4lu04ktTyHsH7bpa7DpTQvBDIbJANIw0A6bSvWVHXM4saUjbi82y0RymKpqfWeeV0fKOXw9OWz3i1ZUqxBxvTs7igUjGVPSYlF91kuiMqv3H8M9GHbIyGfyXDy9lTo8PYdeJbiir2AA"/>
+</div>
+<h2 class="font-title-lg text-title-lg text-on-surface">Which Sustainable Development Goal specifically focuses on "Life Below Water"?</h2>
+</div>
+<!-- Answers Grid -->
+<div class="grid grid-cols-1 gap-3 py-2">
+<button class="w-full p-4 rounded-DEFAULT border-2 border-outline-variant hover:border-primary hover:bg-emerald-50 text-left transition-all group">
+<div class="flex items-center gap-4">
+<span class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container group-hover:bg-primary-fixed text-label-caps">A</span>
+<span class="font-body-md">SDG 12: Responsible Consumption</span>
+</div>
+</button>
+<button class="w-full p-4 rounded-DEFAULT border-2 border-primary-container bg-primary-container/10 text-left transition-all group ring-2 ring-primary ring-offset-2">
+<div class="flex items-center gap-4">
+<span class="w-8 h-8 flex items-center justify-center rounded-full bg-primary-container text-on-primary-container text-label-caps">B</span>
+<span class="font-body-md font-semibold">SDG 14: Life Below Water</span>
+<span class="material-symbols-outlined ml-auto text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</button>
+<button class="w-full p-4 rounded-DEFAULT border-2 border-outline-variant hover:border-primary hover:bg-emerald-50 text-left transition-all group">
+<div class="flex items-center gap-4">
+<span class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container group-hover:bg-primary-fixed text-label-caps">C</span>
+<span class="font-body-md">SDG 15: Life on Land</span>
+</div>
+</button>
+<button class="w-full p-4 rounded-DEFAULT border-2 border-outline-variant hover:border-primary hover:bg-emerald-50 text-left transition-all group">
+<div class="flex items-center gap-4">
+<span class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container group-hover:bg-primary-fixed text-label-caps">D</span>
+<span class="font-body-md">SDG 13: Climate Action</span>
+</div>
+</button>
+</div>
+<div class="pt-4 border-t border-outline-variant">
+<button class="w-full py-4 rounded-full bg-primary text-on-primary font-title-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-transform flex items-center justify-center gap-2">
+                    Next Question
+                    <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Reward Teaser Cards -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white p-4 rounded-lg border border-outline-variant flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-emerald-700">
+<span class="material-symbols-outlined" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div>
+<div class="text-[10px] text-stone-500 uppercase font-bold">Earn up to</div>
+<div class="font-title-lg text-emerald-800">+50 XP</div>
+</div>
+</div>
+<div class="bg-white p-4 rounded-lg border border-outline-variant flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined" data-icon="currency_exchange" style="font-variation-settings: 'FILL' 1;">currency_exchange</span>
+</div>
+<div>
+<div class="text-[10px] text-stone-500 uppercase font-bold">Earn up to</div>
+<div class="font-title-lg text-tertiary">+20 HK</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Success Modal Overlay (Mock Results Screen) - Initially Hidden -->
+<div class="fixed inset-0 z-[60] bg-on-surface/40 backdrop-blur-sm flex items-center justify-center p-6 hidden">
+<div class="bg-white rounded-xl w-full max-w-md p-8 shadow-2xl space-y-6 text-center transform scale-100 transition-transform">
+<div class="relative inline-block">
+<div class="w-24 h-24 bg-primary-container rounded-full flex items-center justify-center text-on-primary-container mx-auto">
+<span class="material-symbols-outlined text-[48px]" data-icon="emoji_events" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+</div>
+<div class="absolute -top-2 -right-2 w-10 h-10 bg-tertiary-fixed rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+<span class="material-symbols-outlined text-tertiary font-bold" data-icon="add">add</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Quest Completed!</h3>
+<p class="font-body-md text-on-surface-variant">You've mastered the Life Below Water challenge.</p>
+</div>
+<div class="bg-surface-container rounded-lg p-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-label-caps text-stone-500">ACCURACY</div>
+<div class="text-headline-md text-emerald-700">100%</div>
+</div>
+<div>
+<div class="text-label-caps text-stone-500">STREAK</div>
+<div class="text-headline-md text-tertiary">5 🔥</div>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full py-4 rounded-full bg-primary text-on-primary font-title-lg shadow-md">
+                    Claim 50 XP &amp; 20 HK
+                </button>
+<button class="w-full py-4 rounded-full border-2 border-primary text-primary font-title-lg">
+                    Back to Hub
+                </button>
+</div>
+</div>
+</div>
+</body></html>

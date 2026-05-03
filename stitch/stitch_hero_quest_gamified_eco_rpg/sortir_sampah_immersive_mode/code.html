@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Lexend:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#d1d5db 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#005048",
+                        "surface-container-high": "#ebe7e5",
+                        "on-tertiary-fixed": "#261a00",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#bfcaba",
+                        "tertiary-fixed": "#ffdfa0",
+                        "secondary-fixed-dim": "#67d9c9",
+                        "on-primary-fixed-variant": "#005312",
+                        "surface": "#fdf8f6",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#88d982",
+                        "surface-tint": "#1b6d24",
+                        "on-primary-container": "#cbffc2",
+                        "on-tertiary-container": "#ffefd7",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#f8bd2a",
+                        "tertiary-container": "#8c6800",
+                        "inverse-on-surface": "#f4f0ee",
+                        "surface-bright": "#fdf8f6",
+                        "secondary": "#006a60",
+                        "surface-dim": "#ddd9d7",
+                        "secondary-container": "#85f6e5",
+                        "primary-fixed-dim": "#88d982",
+                        "primary-container": "#2e7d32",
+                        "secondary-fixed": "#85f6e5",
+                        "on-primary-fixed": "#002204",
+                        "on-secondary-fixed": "#00201c",
+                        "surface-container-low": "#f7f3f1",
+                        "surface-container-highest": "#e5e2e0",
+                        "background": "#fdf8f6",
+                        "tertiary": "#6e5100",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#31302f",
+                        "primary": "#0d631b",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#1c1b1b",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#a3f69c",
+                        "outline": "#707a6c",
+                        "on-surface-variant": "#40493d",
+                        "on-secondary-container": "#007166",
+                        "surface-container": "#f1edeb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "surface-variant": "#e5e2e0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "stack-md": "24px",
+                        "stack-lg": "40px",
+                        "gutter-card": "16px",
+                        "stack-sm": "12px",
+                        "margin-page": "24px",
+                        "padding-pill": "12px 24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Lexend"],
+                        "label-caps": ["Lexend"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-lg": ["Lexend"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen overflow-hidden flex flex-col">
+<!-- Immersive Game HUD -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-start px-4 py-4">
+<!-- Top Left: Quit Button -->
+<button class="w-12 h-12 bg-white border-4 border-on-background rounded-full flex items-center justify-center shadow-[4px_4px_0px_#1c1b1b] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#1c1b1b]">
+<span class="material-symbols-outlined text-on-background" data-icon="close">close</span>
+</button>
+<!-- Center HUD: Timer & Score -->
+<div class="flex flex-col gap-2 items-center">
+<div class="flex gap-2">
+<!-- Score -->
+<div class="bg-white border-4 border-on-background px-3 py-1 rounded-xl flex items-center gap-1 shadow-[4px_4px_0px_#1c1b1b]">
+<span class="material-symbols-outlined text-tertiary-container text-xl" data-icon="stars" data-weight="fill">stars</span>
+<span class="font-title-lg text-sm text-on-background">150</span>
+</div>
+<!-- Timer -->
+<div class="bg-white border-4 border-on-background px-3 py-1 rounded-xl flex items-center gap-1 shadow-[4px_4px_0px_#1c1b1b]">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="schedule">schedule</span>
+<span class="font-title-lg text-sm text-on-background">00:45</span>
+</div>
+</div>
+<!-- Lives -->
+<div class="bg-white border-4 border-on-background px-4 py-1 rounded-xl flex items-center gap-1 shadow-[4px_4px_0px_#1c1b1b]">
+<span class="material-symbols-outlined text-error text-xl" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="material-symbols-outlined text-error text-xl" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="material-symbols-outlined text-error text-xl" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+</div>
+<!-- Top Right: Settings Button -->
+<button class="w-12 h-12 bg-white border-4 border-on-background rounded-full flex items-center justify-center shadow-[4px_4px_0px_#1c1b1b] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#1c1b1b]">
+<span class="material-symbols-outlined text-on-background" data-icon="settings">settings</span>
+</button>
+</header>
+<main class="flex-1 flex flex-col relative bg-pattern pt-28">
+<!-- Microcopy Guide -->
+<div class="text-center z-10">
+<p class="font-title-lg text-primary-container px-6 py-2 rounded-full inline-block bg-primary-fixed border-2 border-primary shadow-sm">
+            Seret sampah ke tempatnya!
+        </p>
+</div>
+<!-- Enhanced Playable Area -->
+<div class="flex-1 relative mx-6">
+<!-- Banana Peel (Organik) -->
+<div class="absolute top-[10%] left-[15%] transform -rotate-12 cursor-grab active:scale-110 active:cursor-grabbing">
+<span class="material-symbols-outlined text-yellow-600 text-7xl drop-shadow-[3px_3px_0px_#1c1b1b]" data-icon="eco" style="-webkit-text-stroke: 2px #1c1b1b;">eco</span>
+</div>
+<!-- Plastic Bottle (Anorganik) -->
+<div class="absolute top-[35%] right-[10%] transform rotate-45 cursor-grab active:scale-110 active:cursor-grabbing">
+<span class="material-symbols-outlined text-blue-500 text-7xl drop-shadow-[3px_3px_0px_#1c1b1b]" data-icon="water_bottle" style="-webkit-text-stroke: 2px #1c1b1b;">water_bottle</span>
+</div>
+<!-- Crumpled Paper (Kertas) -->
+<div class="absolute top-[60%] left-[20%] transform rotate-12 cursor-grab active:scale-110 active:cursor-grabbing">
+<span class="material-symbols-outlined text-stone-500 text-7xl drop-shadow-[3px_3px_0px_#1c1b1b]" data-icon="description" style="-webkit-text-stroke: 2px #1c1b1b;">description</span>
+</div>
+<!-- Soda Can (Anorganik) -->
+<div class="absolute top-[25%] left-[50%] transform -rotate-45 cursor-grab active:scale-110 active:cursor-grabbing">
+<span class="material-symbols-outlined text-red-500 text-7xl drop-shadow-[3px_3px_0px_#1c1b1b]" data-icon="liquor" style="-webkit-text-stroke: 2px #1c1b1b;">liquor</span>
+</div>
+<!-- Interaction Hand Guide -->
+<div class="absolute top-[45%] left-[35%] animate-bounce opacity-60 pointer-events-none">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-6xl text-on-background drop-shadow-[2px_2px_0px_white]" data-icon="pan_tool_alt">pan_tool_alt</span>
+</div>
+</div>
+</div>
+<!-- Optimised Bins Section -->
+<div class="px-4 pb-12 grid grid-cols-5 gap-2 z-20">
+<!-- Organik (Green) -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-full h-24 bg-emerald-100 border-[3px] border-on-background rounded-xl flex flex-col items-center justify-between py-1 relative overflow-hidden shadow-[4px_4px_0px_#1c1b1b]">
+<div class="absolute top-0 w-full h-3 bg-emerald-700"></div>
+<span class="material-symbols-outlined text-emerald-800 text-2xl mt-3" data-icon="compost">compost</span>
+<p class="font-label-caps text-[9px] text-emerald-900 z-10 uppercase">Organik</p>
+</div>
+</div>
+<!-- Anorganik (Yellow) -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-full h-24 bg-yellow-50 border-[3px] border-on-background rounded-xl flex flex-col items-center justify-between py-1 relative overflow-hidden shadow-[4px_4px_0px_#1c1b1b]">
+<div class="absolute top-0 w-full h-3 bg-yellow-500"></div>
+<span class="material-symbols-outlined text-yellow-700 text-2xl mt-3" data-icon="recycling">recycling</span>
+<p class="font-label-caps text-[9px] text-yellow-900 z-10 uppercase leading-none text-center">Anorganik</p>
+</div>
+</div>
+<!-- B3 (Red) -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-full h-24 bg-red-100 border-[3px] border-on-background rounded-xl flex flex-col items-center justify-between py-1 relative overflow-hidden shadow-[4px_4px_0px_#1c1b1b]">
+<div class="absolute top-0 w-full h-3 bg-red-600"></div>
+<span class="material-symbols-outlined text-red-800 text-2xl mt-3" data-icon="dangerous">dangerous</span>
+<p class="font-label-caps text-[9px] text-red-900 z-10 uppercase">B3</p>
+</div>
+</div>
+<!-- Kertas (Blue) -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-full h-24 bg-blue-100 border-[3px] border-on-background rounded-xl flex flex-col items-center justify-between py-1 relative overflow-hidden shadow-[4px_4px_0px_#1c1b1b]">
+<div class="absolute top-0 w-full h-3 bg-blue-700"></div>
+<span class="material-symbols-outlined text-blue-800 text-2xl mt-3" data-icon="description">description</span>
+<p class="font-label-caps text-[9px] text-blue-900 z-10 uppercase">Kertas</p>
+</div>
+</div>
+<!-- Residu (Grey) -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-full h-24 bg-zinc-200 border-[3px] border-on-background rounded-xl flex flex-col items-center justify-between py-1 relative overflow-hidden shadow-[4px_4px_0px_#1c1b1b]">
+<div class="absolute top-0 w-full h-3 bg-zinc-700"></div>
+<span class="material-symbols-outlined text-zinc-800 text-2xl mt-3" data-icon="delete_forever">delete_forever</span>
+<p class="font-label-caps text-[9px] text-zinc-900 z-10 uppercase">Residu</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -29,6 +29,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +45,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.luminasdgs.ui.components.CompletionDialog
+import com.example.luminasdgs.ui.components.CompletionReward
 import com.example.luminasdgs.viewmodel.TreeViewModel
 
 @Composable
@@ -52,6 +59,8 @@ fun TreeScreen(viewModel: TreeViewModel = viewModel()) {
         4 -> "Ancient Guardian"
         else -> "World Tree"
     }
+    val completedMissions = remember { mutableStateListOf<Int>() }
+    var selectedMission by remember { mutableStateOf<TreeQuestMission?>(null) }
 
     LazyColumn(
         modifier = Modifier
@@ -187,6 +196,10 @@ fun TreeScreen(viewModel: TreeViewModel = viewModel()) {
                     onClick = { viewModel.fertilizeTree() }
                 )
             }
+        }
+
+        item {
+            TreeQuestMissionSection()
         }
 
         item {
@@ -348,6 +361,161 @@ private fun BadgeItem(badge: BadgeData) {
         )
     }
 }
+
+@Composable
+private fun TreeQuestMissionSection() {
+    val completedMissions = remember { mutableStateListOf<Int>() }
+    var selectedMission by remember { mutableStateOf<TreeQuestMission?>(null) }
+    val missions = listOf(
+        TreeQuestMission(
+            id = 1,
+            title = "Main 2x game hari ini",
+            description = "Selesaikan dua mini-game untuk menumbuhkan pohon lebih cepat.",
+            progress = 0.5f,
+            reward = "+40 XP • +15 HK • +1 Air",
+            accent = Color(0xFF2E7D32)
+        ),
+        TreeQuestMission(
+            id = 2,
+            title = "Menang 1 game tanpa timeout",
+            description = "Tunjukkan fokusmu di satu game penuh untuk bonus hadiah kebun.",
+            progress = 0.75f,
+            reward = "+60 XP • +1 Pupuk",
+            accent = Color(0xFF1565C0)
+        ),
+        TreeQuestMission(
+            id = 3,
+            title = "Buat 3 jawaban benar beruntun",
+            description = "Kombo yang stabil akan langsung memberi item tanam tambahan.",
+            progress = 0.33f,
+            reward = "+30 XP • Bibit Langka",
+            accent = Color(0xFF8D6E00)
+        )
+    )
+
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Quest Harian Pohon",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = "Reset harian",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+
+        missions.forEach { mission ->
+            Card(
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = mission.title,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = mission.description,
+                                fontSize = 12.sp,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                            )
+                        }
+                        Surface(
+                            shape = RoundedCornerShape(999.dp),
+                            color = mission.accent.copy(alpha = 0.15f)
+                        ) {
+                            Text(
+                                text = mission.reward,
+                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = mission.accent
+                            )
+                        }
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(10.dp)
+                            .clip(RoundedCornerShape(999.dp))
+                            .background(Color(0xFFE0F2F1))
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(mission.progress.coerceIn(0f, 1f))
+                                .height(10.dp)
+                                .clip(RoundedCornerShape(999.dp))
+                                .background(
+                                    Brush.horizontalGradient(
+                                        colors = listOf(mission.accent, mission.accent.copy(alpha = 0.55f))
+                                    )
+                                )
+                        )
+                    }
+
+                    Button(
+                        onClick = {
+                            if (!completedMissions.contains(mission.id)) completedMissions.add(mission.id)
+                            selectedMission = mission
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(999.dp),
+                        enabled = !completedMissions.contains(mission.id)
+                    ) {
+                        Text(text = if (completedMissions.contains(mission.id)) "Selesai" else "Klaim Quest")
+                    }
+                }
+            }
+        }
+
+        selectedMission?.let { mission ->
+            CompletionDialog(
+                title = "Quest Harian Selesai",
+                message = mission.title,
+                rewards = listOf(
+                    CompletionReward("XP", mission.reward.substringBefore("•").trim()),
+                    CompletionReward("Bonus", mission.reward.substringAfter("•").trim()),
+                    CompletionReward("Item", "Air / Pupuk / Bibit")
+                ),
+                primaryButtonText = "Ambil Reward",
+                secondaryButtonText = "Tutup",
+                onPrimaryClick = { selectedMission = null },
+                onSecondaryClick = { selectedMission = null },
+                onDismiss = { selectedMission = null },
+                accentColor = mission.accent
+            )
+        }
+    }
+}
+
+private data class TreeQuestMission(
+    val id: Int,
+    val title: String,
+    val description: String,
+    val progress: Float,
+    val reward: String,
+    val accent: Color
+)
 
 private data class BadgeData(
     val title: String,

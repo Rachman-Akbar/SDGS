@@ -1,66 +1,70 @@
 package com.example.luminasdgs.viewmodel
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.luminasdgs.data.dummy.MatchCardDummyData
-import com.example.luminasdgs.data.model.MatchCard
+import com.example.luminasdgs.data.dummy.SdgDummyData
+import com.example.luminasdgs.data.model.SdgGoal
+import com.example.luminasdgs.data.model.SdgStatement
 
 class MatchCardViewModel : ViewModel() {
-    private val initialCards = MatchCardDummyData.cards.shuffled()
+    private var statements: List<SdgStatement> = SdgDummyData.statements.shuffled()
 
-    var cards by mutableStateOf(initialCards)
+    val goals: List<SdgGoal> = SdgDummyData.goals
+
+    var currentIndex by mutableIntStateOf(0)
         private set
-    var score by mutableStateOf(0)
+
+    var score by mutableIntStateOf(0)
         private set
-    var matchedPairs by mutableStateOf(0)
+
+    var correctCount by mutableIntStateOf(0)
         private set
-    var lives by mutableStateOf(3)
+
+    var wrongCount by mutableIntStateOf(0)
         private set
+
+    var lives by mutableIntStateOf(3)
+        private set
+
     var lastMoveMatched by mutableStateOf<Boolean?>(null)
         private set
+
     var isCompleted by mutableStateOf(false)
         private set
+
     var isGameOver by mutableStateOf(false)
         private set
 
-    private var selectedIds = listOf<Int>()
+    val currentStatement: SdgStatement?
+        get() = statements.getOrNull(currentIndex)
 
-    fun flipCard(cardId: Int) {
+    fun selectGoal(goalId: Int) {
         if (isCompleted || isGameOver) return
-        val card = cards.firstOrNull { it.id == cardId } ?: return
-        if (card.isMatched || card.isFlipped || selectedIds.size == 2) return
+        val statement = currentStatement ?: return
+        val isCorrect = statement.goalId == goalId
 
-        cards = cards.map {
-            if (it.id == cardId) it.copy(isFlipped = true) else it
-        }
-        selectedIds = selectedIds + cardId
-
-        if (selectedIds.size == 2) {
-            val first = cards.first { it.id == selectedIds[0] }
-            val second = cards.first { it.id == selectedIds[1] }
-            if (first.pairId == second.pairId) {
-                cards = cards.map {
-                    if (it.id == first.id || it.id == second.id) it.copy(isMatched = true) else it
-                }
-                score += 10
-                matchedPairs += 1
-                lastMoveMatched = true
-                if (matchedPairs == cards.size / 2) {
-                    isCompleted = true
-                }
-            } else {
-                cards = cards.map {
-                    if (it.id == first.id || it.id == second.id) it.copy(isFlipped = false) else it
-                }
-                lives -= 1
-                lastMoveMatched = false
-                if (lives <= 0) {
-                    isGameOver = true
-                }
+        if (isCorrect) {
+            score += 10
+            correctCount += 1
+            lastMoveMatched = true
+        } else {
+            score = (score - 5).coerceAtLeast(0)
+            wrongCount += 1
+            lives = (lives - 1).coerceAtLeast(0)
+            lastMoveMatched = false
+            if (lives <= 0) {
+                isGameOver = true
+                return
             }
-            selectedIds = emptyList()
+        }
+
+        currentIndex += 1
+        if (currentIndex >= statements.size) {
+            isCompleted = true
+            isGameOver = true
         }
     }
 
@@ -69,5 +73,17 @@ class MatchCardViewModel : ViewModel() {
             isGameOver = true
             lastMoveMatched = false
         }
+    }
+
+    fun resetGame() {
+        statements = SdgDummyData.statements.shuffled()
+        currentIndex = 0
+        score = 0
+        correctCount = 0
+        wrongCount = 0
+        lives = 3
+        lastMoveMatched = null
+        isCompleted = false
+        isGameOver = false
     }
 }

@@ -16,6 +16,7 @@
 ## 🎯 WEEK 1 (Critical Path)
 
 ### 1. Data Persistence (CRITICAL)
+
 - [ ] Create GameProgress data model
 - [ ] Setup Room database + DAO
 - [ ] Implement GameProgressRepository
@@ -26,6 +27,7 @@
 **Target**: Wed May 8
 
 ### 2. Difficulty Scaling (HIGH)
+
 - [ ] Create Difficulty enum (EASY, NORMAL, HARD)
 - [ ] Adjust game parameters per difficulty
 - [ ] Implement unlock progression logic
@@ -36,6 +38,7 @@
 **Target**: Fri May 10
 
 ### 3. Fail/Retry UX (HIGH)
+
 - [ ] Create reusable GameOverModal component
 - [ ] Implement instant reset logic in all game VMs
 - [ ] Add "Try Again" button with sub-500ms latency
@@ -45,6 +48,7 @@
 **Target**: Wed May 8
 
 ### 4. Daily Missions (MEDIUM)
+
 - [ ] Create DailyMission data model & DAO
 - [ ] Implement DailyMissionViewModel
 - [ ] Design mission generation algorithm
@@ -59,6 +63,7 @@
 ## 🎮 WEEK 2 (Polish & Features)
 
 ### 5. Game Tutorials (MEDIUM)
+
 - [ ] Create OnboardingGameScreen component
 - [ ] Design tutorial flow for each game (3-4 slides)
 - [ ] Implement first-time flag tracking
@@ -69,6 +74,7 @@
 **Target**: Mon May 13
 
 ### 6. Sound & Haptic (MEDIUM)
+
 - [ ] Source/create 5 SFX assets (correct, wrong, combo, game-over, click)
 - [ ] Create SoundManager utility
 - [ ] Create HapticManager utility
@@ -79,6 +85,7 @@
 **Target**: Tue May 14
 
 ### 7. Anti-Cheat & Reward Cap (MEDIUM)
+
 - [ ] Setup daily reward cap (e.g., 500 XP, 200 HK)
 - [ ] Create RewardValidator utility
 - [ ] Implement reward log table for audit
@@ -89,6 +96,7 @@
 **Target**: Wed May 15
 
 ### 8. Analytics Tracking (LOW-MEDIUM)
+
 - [ ] Create AnalyticsEvent data model
 - [ ] Setup local SQLite analytics table
 - [ ] Implement tracking in all game VMs + navigation
@@ -99,6 +107,7 @@
 **Target**: Thu May 16
 
 ### 9. Accessibility (MEDIUM)
+
 - [ ] Add text size preference (small/normal/large)
 - [ ] Audit color contrast (WCAG AA)
 - [ ] Ensure touch targets >= 48dp
@@ -113,6 +122,7 @@
 ## 📊 Definition of Done
 
 For each feature, verify:
+
 - [ ] Code compiles without errors/warnings
 - [ ] Unit tests pass (if applicable)
 - [ ] Manual testing on device (API 28+)
@@ -126,6 +136,7 @@ For each feature, verify:
 ## 🔍 Testing Checklist
 
 ### Manual Testing (Per Feature)
+
 - [ ] Happy path (normal game flow)
 - [ ] Error path (timeout, no lives, out of cap)
 - [ ] Edge cases (rapid clicks, airplane mode, low battery)
@@ -133,6 +144,7 @@ For each feature, verify:
 - [ ] Low-end device (API 28, 2GB RAM)
 
 ### Automated Testing (Recommended)
+
 - [ ] Database layer: DAO CRUD tests
 - [ ] ViewModel: state management tests
 - [ ] Reward validator: cap logic tests

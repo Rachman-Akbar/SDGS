@@ -9,9 +9,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.navigation.NavType
 import com.example.luminasdgs.ui.components.BottomNavigationBar
 import com.example.luminasdgs.ui.screens.game.GameScreen
 import com.example.luminasdgs.ui.screens.game.matchcard.MatchCardScreen
+import com.example.luminasdgs.ui.screens.game.mythfacts.MythFactScreen
 import com.example.luminasdgs.ui.screens.game.quiz.QuizScreen
 import com.example.luminasdgs.ui.screens.game.river.CleanRiverScreen
 import com.example.luminasdgs.ui.screens.game.trashsort.TrashSortScreen
@@ -20,10 +23,15 @@ import com.example.luminasdgs.ui.screens.onboarding.OnboardingLearnScreen
 import com.example.luminasdgs.ui.screens.onboarding.OnboardingRewardsScreen
 import com.example.luminasdgs.ui.screens.home.HomeScreen
 import com.example.luminasdgs.ui.screens.profile.ProfileScreen
+import com.example.luminasdgs.ui.screens.profile.achievement.AchievementHubScreen
+import com.example.luminasdgs.ui.screens.profile.achievement.MatchCardAchievementDetailScreen
+import com.example.luminasdgs.ui.screens.profile.achievement.MatchCardAchievementScreen
+import com.example.luminasdgs.ui.screens.profile.achievement.MythFactAchievementScreen
+import com.example.luminasdgs.ui.screens.profile.achievement.QuizAchievementScreen
+import com.example.luminasdgs.ui.screens.profile.achievement.TrashSortAchievementScreen
 import com.example.luminasdgs.ui.screens.actions.ActionsScreen
 import com.example.luminasdgs.ui.screens.splash.SplashScreen
 import com.example.luminasdgs.ui.screens.tree.TreeScreen
-import com.example.luminasdgs.ui.screens.rewards.RewardsScreen
 
 @Composable
 fun AppNavigation() {
@@ -59,12 +67,24 @@ fun AppNavigation() {
             composable(Screen.Actions.route) { ActionsScreen() }
             composable(Screen.Game.route) { GameScreen(navController = navController) }
             composable(Screen.Tree.route) { TreeScreen() }
-            composable(Screen.Rewards.route) { RewardsScreen() }
-            composable(Screen.Profile.route) { ProfileScreen() }
+            composable(Screen.Profile.route) { ProfileScreen(navController = navController) }
             composable(Screen.Quiz.route) { QuizScreen(navController = navController) }
             composable(Screen.TrashSort.route) { TrashSortScreen(navController = navController) }
             composable(Screen.MatchCard.route) { MatchCardScreen(navController = navController) }
             composable(Screen.CleanRiver.route) { CleanRiverScreen(navController = navController) }
+            composable(Screen.MythFact.route) { MythFactScreen(navController = navController) }
+            composable(Screen.AchievementHub.route) { AchievementHubScreen(navController = navController) }
+            composable(Screen.AchievementQuiz.route) { QuizAchievementScreen(navController = navController) }
+            composable(Screen.AchievementMatchCard.route) { MatchCardAchievementScreen(navController = navController) }
+            composable(Screen.AchievementMythFact.route) { MythFactAchievementScreen(navController = navController) }
+            composable(Screen.AchievementTrashSort.route) { TrashSortAchievementScreen(navController = navController) }
+            composable(
+                route = Screen.AchievementMatchCardDetail.route,
+                arguments = listOf(navArgument("sdgId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val sdgId = backStackEntry.arguments?.getInt("sdgId") ?: 1
+                MatchCardAchievementDetailScreen(navController = navController, sdgId = sdgId)
+            }
         }
     }
 }

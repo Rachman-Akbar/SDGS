@@ -1,6 +1,7 @@
 # Sound Effects & Haptic Feedback Implementation Guide
 
 ## 📚 Overview
+
 Panduan lengkap implementasi SFX dan haptic feedback untuk Hero Quest mini-games. Includes step-by-step code, asset sourcing, dan performance optimization.
 
 ---
@@ -36,7 +37,7 @@ import android.util.Log
 
 /**
  * Singleton manager untuk playback SFX dengan pooling & lifecycle management.
- * 
+ *
  * Features:
  * - Cache MediaPlayer instances untuk performa
  * - Volume control
@@ -44,20 +45,20 @@ import android.util.Log
  * - Test-friendly (dapat di-mock)
  */
 class SoundManager(private val context: Context) {
-    
+
     private val mediaPlayers = mutableMapOf<String, MediaPlayer?>()
     private var isSoundEnabled = true
-    
+
     companion object {
         private var instance: SoundManager? = null
-        
+
         fun getInstance(context: Context): SoundManager {
             return instance ?: synchronized(this) {
                 instance ?: SoundManager(context.applicationContext).also { instance = it }
             }
         }
     }
-    
+
     enum class SFXType(val resId: Int, val duration: Long) {
         CORRECT(com.example.luminasdgs.R.raw.sfx_correct, 200),
         WRONG(com.example.luminasdgs.R.raw.sfx_wrong, 150),
@@ -66,58 +67,58 @@ class SoundManager(private val context: Context) {
         CLICK(com.example.luminasdgs.R.raw.sfx_click, 100),
         SUCCESS(com.example.luminasdgs.R.raw.sfx_success, 250)
     }
-    
+
     /**
      * Main playback method.
-     * 
+     *
      * Usage:
      *   SoundManager.getInstance(context).playSound(SFXType.CORRECT)
-     * 
+     *
      * Thread-safe: dapat dipanggil dari UI thread atau background.
      * Non-blocking: async cleanup tidak memblok caller.
      */
     fun playSound(type: SFXType, volume: Float = 1f) {
         if (!isSoundEnabled) return
-        
+
         try {
             // Cleanup old player jika ada
             mediaPlayers[type.name]?.release()
-            
+
             // Create new player dari raw resource
             val player = MediaPlayer.create(context, type.resId)
             player?.apply {
                 setVolume(volume, volume) // Left & right channel
                 start()
-                
+
                 // Auto-cleanup setelah selesai (async)
                 setOnCompletionListener {
                     release()
                     mediaPlayers[type.name] = null
                 }
             }
-            
+
             mediaPlayers[type.name] = player
-            
+
         } catch (e: Exception) {
             Log.e("SoundManager", "Error playing sound ${type.name}: ${e.message}")
         }
     }
-    
+
     /**
      * Set master sound toggle.
-     * 
+     *
      * Usage:
      *   SoundManager.getInstance(context).setSoundEnabled(false)
      */
     fun setSoundEnabled(enabled: Boolean) {
         isSoundEnabled = enabled
     }
-    
+
     /**
      * Get current sound state.
      */
     fun isSoundEnabled(): Boolean = isSoundEnabled
-    
+
     /**
      * Release semua resources (call di Activity.onDestroy).
      */
@@ -144,16 +145,16 @@ import androidx.annotation.RequiresApi
 
 /**
  * Haptic feedback manager untuk Android 26+.
- * 
+ *
  * API Level Support:
  * - API 26-30: VibrationEffect dengan Vibrator
  * - API 31+: VibratorManager (preferred)
- * 
+ *
  * Usage:
  *   HapticManager.getInstance(context).pulse(HapticPattern.CORRECT)
  */
 class HapticManager(private val context: Context) {
-    
+
     private val vibrator: Vibrator? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         // API 31+: VibratorManager
         (context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager)?.defaultVibrator
@@ -162,19 +163,19 @@ class HapticManager(private val context: Context) {
         @Suppress("DEPRECATION")
         context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
     }
-    
+
     private var isHapticEnabled = true
-    
+
     companion object {
         private var instance: HapticManager? = null
-        
+
         fun getInstance(context: Context): HapticManager {
             return instance ?: synchronized(this) {
                 instance ?: HapticManager(context.applicationContext).also { instance = it }
             }
         }
     }
-    
+
     enum class HapticPattern(val duration: Long, val amplitude: Int) {
         // duration in ms, amplitude 0-255 (0=off, 255=max)
         CORRECT(50, 200),          // Single short pulse, medium strength
@@ -183,16 +184,16 @@ class HapticManager(private val context: Context) {
         GAME_OVER(200, 100),       // Slow rumble
         CLICK(20, 100)             // Minimal UI feedback
     }
-    
+
     /**
      * Play single pulse haptic.
-     * 
+     *
      * Usage:
      *   HapticManager.getInstance(context).pulse(HapticPattern.CORRECT)
      */
     fun pulse(pattern: HapticPattern) {
         if (!isHapticEnabled || vibrator == null || !vibrator.hasVibrator()) return
-        
+
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val effect = VibrationEffect.createOneShot(
@@ -209,20 +210,20 @@ class HapticManager(private val context: Context) {
             // Device tidak support vibration, silent fail
         }
     }
-    
+
     /**
      * Play pattern: multiple pulses untuk dramatic effect.
-     * 
+     *
      * Contoh: WRONG dengan 2x rapid pulse
      * Timings: [delay, duration, delay, duration, ...]
-     * 
+     *
      * Usage:
      *   HapticManager.getInstance(context).pattern(longArrayOf(0, 30, 50, 30))
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun pattern(timings: LongArray) {
         if (!isHapticEnabled || vibrator == null || !vibrator.hasVibrator()) return
-        
+
         try {
             val amplitudes = IntArray(timings.size) { if (it % 2 == 0) 0 else 180 }
             val effect = VibrationEffect.createWaveform(timings, amplitudes)
@@ -231,11 +232,11 @@ class HapticManager(private val context: Context) {
             // Silent fail
         }
     }
-    
+
     fun setHapticEnabled(enabled: Boolean) {
         isHapticEnabled = enabled
     }
-    
+
     fun isHapticEnabled(): Boolean = isHapticEnabled
 }
 ```
@@ -255,9 +256,9 @@ fun QuizScreen(navController: NavController, viewModel: QuizViewModel = viewMode
     val context = LocalContext.current
     val soundManager = remember { SoundManager.getInstance(context) }
     val hapticManager = remember { HapticManager.getInstance(context) }
-    
+
     // ... existing code ...
-    
+
     // Saat jawaban benar
     LaunchedEffect(viewModel.isLastAnswerCorrect) {
         if (viewModel.isLastAnswerCorrect == true) {
@@ -268,7 +269,7 @@ fun QuizScreen(navController: NavController, viewModel: QuizViewModel = viewMode
             hapticManager.pattern(longArrayOf(0, 30, 50, 30)) // 2x pulse
         }
     }
-    
+
     // Saat game over
     if (viewModel.isGameOver) {
         LaunchedEffect(Unit) {
@@ -276,7 +277,7 @@ fun QuizScreen(navController: NavController, viewModel: QuizViewModel = viewMode
             hapticManager.pulse(HapticManager.HapticPattern.GAME_OVER)
         }
     }
-    
+
     // Saat UI click (tombol)
     Button(
         onClick = {
@@ -303,10 +304,10 @@ DisposableEffect(Unit) {
 <manifest ...>
     <!-- Permission untuk vibration -->
     <uses-permission android:name="android.permission.VIBRATE" />
-    
+
     <!-- Optional: untuk battery optimization (API 33+) -->
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-    
+
     <application ...>
         ...
     </application>
@@ -319,13 +320,13 @@ DisposableEffect(Unit) {
 
 ### 2.1 Where to Get SFX (Free & Licensed)
 
-| Source | License | Quality | Notes |
-|--------|---------|---------|-------|
-| **Freesound.org** | CC0/CC-BY | High | Attribution required for CC-BY |
-| **Zapsplat.com** | Free (personal use) | High | No attribution needed |
-| **OpenGameArt.org** | CC0/CC-BY/CC-BY-SA | Varied | Open source audio |
-| **Pixabay.com** | CC0 | Medium | Simple, clean sounds |
-| **Free-Loops.com** | Free | Low-Medium | Retro game sounds |
+| Source              | License             | Quality    | Notes                          |
+| ------------------- | ------------------- | ---------- | ------------------------------ |
+| **Freesound.org**   | CC0/CC-BY           | High       | Attribution required for CC-BY |
+| **Zapsplat.com**    | Free (personal use) | High       | No attribution needed          |
+| **OpenGameArt.org** | CC0/CC-BY/CC-BY-SA  | Varied     | Open source audio              |
+| **Pixabay.com**     | CC0                 | Medium     | Simple, clean sounds           |
+| **Free-Loops.com**  | Free                | Low-Medium | Retro game sounds              |
 
 ### 2.2 Recommended SFX Specification
 
@@ -378,13 +379,13 @@ item {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
-        
+
         val soundManager = remember { SoundManager.getInstance(context) }
         val hapticManager = remember { HapticManager.getInstance(context) }
-        
+
         var soundEnabled by remember { mutableStateOf(soundManager.isSoundEnabled()) }
         var hapticEnabled by remember { mutableStateOf(hapticManager.isHapticEnabled()) }
-        
+
         SettingsRow(
             label = "Sound Effects",
             isEnabled = soundEnabled,
@@ -396,7 +397,7 @@ item {
                     .edit().putBoolean("sound_enabled", it).apply()
             }
         )
-        
+
         SettingsRow(
             label = "Haptic Feedback",
             isEnabled = hapticEnabled,
@@ -478,7 +479,7 @@ DisposableEffect(Unit) {
 // Ensure cleanup in Activity/Screen lifecycle
 class GameActivity : AppCompatActivity() {
     private val soundManager by lazy { SoundManager.getInstance(this) }
-    
+
     override fun onDestroy() {
         soundManager.release() // Critical!
         super.onDestroy()
@@ -524,34 +525,34 @@ fun supportsHaptic(context: Context): Boolean {
 ```kotlin
 @RunWith(AndroidJUnit4::class)
 class SoundManagerTest {
-    
+
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
-    
+
     private lateinit var context: Context
     private lateinit var soundManager: SoundManager
-    
+
     @Before
     fun setup() {
         context = ApplicationProvider.getApplicationContext()
         soundManager = SoundManager.getInstance(context)
     }
-    
+
     @Test
     fun testPlaySound() {
         soundManager.playSound(SoundManager.SFXType.CORRECT)
         // Verify no crash, optionally check MediaPlayer state
     }
-    
+
     @Test
     fun testSoundToggle() {
         soundManager.setSoundEnabled(false)
         assertFalse(soundManager.isSoundEnabled())
-        
+
         soundManager.setSoundEnabled(true)
         assertTrue(soundManager.isSoundEnabled())
     }
-    
+
     @After
     fun cleanup() {
         soundManager.release()

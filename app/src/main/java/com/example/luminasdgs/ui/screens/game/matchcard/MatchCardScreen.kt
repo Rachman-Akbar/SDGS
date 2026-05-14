@@ -1,44 +1,28 @@
 package com.example.luminasdgs.ui.screens.game.matchcard
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Public
-import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -46,243 +30,196 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.luminasdgs.ui.screens.game.components.ImmersiveGameHeader
-import com.example.luminasdgs.ui.screens.game.components.formatTimer
-import com.example.luminasdgs.ui.screens.game.components.rememberCountdownTimer
+import com.example.luminasdgs.R
+import com.example.luminasdgs.ui.components.CompletionDialog
+import com.example.luminasdgs.ui.components.CompletionReward
+import com.example.luminasdgs.ui.components.SdgImageTile
+import com.example.luminasdgs.ui.screens.game.components.CompactGameHeader
+import com.example.luminasdgs.ui.screens.game.components.GameBackground
+import com.example.luminasdgs.ui.screens.game.components.PreGameCountdownOverlay
 import com.example.luminasdgs.viewmodel.MatchCardViewModel
 import kotlinx.coroutines.delay
+
+private const val GAME_DURATION_SECONDS = 60
+private const val CORRECT_TIME_BONUS_SECONDS = 4
+private const val MAX_TIME_SECONDS = 120
 
 @Composable
 fun MatchCardScreen(
     navController: NavController,
     viewModel: MatchCardViewModel = viewModel()
 ) {
-    val totalPairs = (viewModel.cards.size / 2).coerceAtLeast(1)
-    val progress = (viewModel.matchedPairs.toFloat() / totalPairs).coerceIn(0f, 1f)
-    val timerSeconds = rememberCountdownTimer(
-        initialSeconds = 42,
-        isRunning = !viewModel.isCompleted && !viewModel.isGameOver,
-        resetKey = Unit,
-        onFinished = { viewModel.onTimeout() }
-    )
-    var showMatchToast by remember { mutableStateOf(false) }
+    var remainingSeconds by rememberSaveable { mutableIntStateOf(GAME_DURATION_SECONDS) }
+    var countdownActive by rememberSaveable { mutableStateOf(true) }
+    var countdownSeconds by rememberSaveable { mutableIntStateOf(3) }
 
-    LaunchedEffect(viewModel.lastMoveMatched) {
-        if (viewModel.lastMoveMatched == true) {
-            showMatchToast = true
-            delay(700)
-            showMatchToast = false
+    val timeProgress = (remainingSeconds.toFloat() / GAME_DURATION_SECONDS).coerceIn(0f, 1f)
+    val isPlaying = !viewModel.isCompleted &&
+            !viewModel.isGameOver &&
+            remainingSeconds > 0 &&
+            !countdownActive
+
+    val statement = viewModel.currentStatement
+
+    val sdgDrawables = remember {
+        mapOf(
+            1 to R.drawable.sdgs1,
+            2 to R.drawable.sdgs2,
+            3 to R.drawable.sdgs3,
+            4 to R.drawable.sdgs4,
+            5 to R.drawable.sdgs5,
+            6 to R.drawable.sdgs6,
+            7 to R.drawable.sdgs7,
+            8 to R.drawable.sdgs8,
+            9 to R.drawable.sdgs9,
+            10 to R.drawable.sdgs10,
+            11 to R.drawable.sdgs11,
+            12 to R.drawable.sdgs12,
+            13 to R.drawable.sdgs13,
+            14 to R.drawable.sdgs14,
+            15 to R.drawable.sdgs15,
+            16 to R.drawable.sdgs16,
+            17 to R.drawable.sdgs17
+        )
+    }
+
+    LaunchedEffect(countdownActive, countdownSeconds) {
+        if (!countdownActive) return@LaunchedEffect
+
+        if (countdownSeconds <= 0) {
+            countdownActive = false
+            return@LaunchedEffect
+        }
+
+        delay(1_000L)
+        countdownSeconds -= 1
+    }
+
+    LaunchedEffect(isPlaying) {
+        while (isPlaying && remainingSeconds > 0) {
+            delay(1_000L)
+            remainingSeconds = (remainingSeconds - 1).coerceAtLeast(0)
+
+            if (remainingSeconds == 0) {
+                viewModel.onTimeout()
+            }
         }
     }
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
+    LaunchedEffect(viewModel.lastMoveMatched) {
+        if (viewModel.lastMoveMatched == true && !viewModel.isGameOver) {
+            remainingSeconds = (remainingSeconds + CORRECT_TIME_BONUS_SECONDS)
+                .coerceAtMost(MAX_TIME_SECONDS)
+        }
+    }
+
+    Box(
         modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(top = 20.dp, bottom = 60.dp)
     ) {
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            ImmersiveGameHeader(
-                title = "SDG Match\nCard",
-                subtitle = "Match the icon to its Global Goal number.",
-                timer = formatTimer(timerSeconds),
-                score = viewModel.score.toString(),
-                target = "${viewModel.matchedPairs}/$totalPairs",
-                lives = viewModel.lives,
-                xpGain = "+60 XP",
-                pointGain = "+30 HK",
-                progress = progress,
-                onExit = { navController.popBackStack() },
-                onSettings = {}
-            )
-        }
+        GameBackground(modifier = Modifier.fillMaxSize())
 
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            AnimatedVisibility(
-                visible = showMatchToast,
-                enter = fadeIn() + scaleIn(),
-                exit = fadeOut() + scaleOut()
-            ) {
-                Surface(shape = RoundedCornerShape(12.dp), color = Color(0xFFB2F5EA)) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(4),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+            contentPadding = PaddingValues(top = 20.dp, bottom = 60.dp)
+        ) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                CompactGameHeader(
+                    progress = timeProgress,
+                    lives = viewModel.lives,
+                    statLabel = "Skor",
+                    statValue = viewModel.score.toString(),
+                    instruction = "Cocokkan pernyataan ke SDG yang tepat.",
+                    onExit = { navController.popBackStack() },
+                    onSettings = {}
+                )
+            }
+
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Surface(
+                    shape = RoundedCornerShape(20.dp),
+                    color = Color.White,
+                    shadowElevation = 8.dp
+                ) {
                     Text(
-                        text = "Match! Combo +10 XP",
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF00695C)
+                        text = statement?.text ?: "Menyiapkan pernyataan...",
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(0xFF263238)
                     )
                 }
             }
-        }
 
-        items(viewModel.cards) { card ->
-            val isActive = card.isFlipped || card.isMatched
-            val cardColor = when {
-                card.isMatched -> Color(0xFFC8E6C9)
-                card.isFlipped -> Color(0xFFE8F5E9)
-                else -> Color(0xFFEDEDED)
-            }
-            val borderColor = when {
-                card.isMatched -> Color(0xFF66BB6A)
-                card.isFlipped -> Color(0xFF2E7D32)
-                else -> Color(0xFFB0BEC5)
+            items(viewModel.goals) { goal ->
+                val drawableRes = sdgDrawables[goal.id]
+
+                SdgImageTile(
+                    drawableRes = drawableRes,
+                    contentDescription = "SDG ${goal.id}",
+                    modifier = Modifier.fillMaxWidth(),
+                    cornerRadius = 18.dp,
+                    elevation = 10.dp,
+                    onClick = { viewModel.selectGoal(goal.id) }
+                )
             }
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(enabled = !card.isMatched) { viewModel.flipCard(card.id) },
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = cardColor),
-                border = androidx.compose.foundation.BorderStroke(2.dp, borderColor)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .padding(vertical = 24.dp)
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (isActive) {
+            if (viewModel.isGameOver) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Surface(
+                        shape = RoundedCornerShape(16.dp),
+                        color = Color(0xFFFFEBEE),
+                        shadowElevation = 4.dp
+                    ) {
                         Text(
-                            text = card.text,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = if (card.isMatched) Color(0xFF2E7D32) else MaterialTheme.colorScheme.onSurface
-                        )
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(Color(0xFFE0E0E0), CircleShape),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "★", color = Color(0xFF90A4AE), fontSize = 22.sp)
-                        }
-                    }
-                }
-            }
-        }
-
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            Button(
-                onClick = {},
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(999.dp)
-            ) {
-                Icon(imageVector = Icons.Filled.Bolt, contentDescription = null)
-                Text(text = " Activate Fast-Play")
-            }
-        }
-
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            Text(
-                text = "\"Speed builds XP. Accuracy builds Impact.\"",
-                fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-            )
-        }
-
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            Surface(
-                shape = RoundedCornerShape(18.dp),
-                color = MaterialTheme.colorScheme.surface,
-                shadowElevation = 4.dp
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(14.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .background(Color(0xFFFFE082), CircleShape),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "★", color = Color(0xFF6E5100))
-                        }
-                        Text(
-                            text = "  DAILY BEST\n  00:34s",
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 13.sp
+                            text = "Game Over. Nyawa habis atau waktu habis.",
+                            modifier = Modifier.padding(16.dp),
+                            color = Color(0xFFD32F2F),
+                            fontWeight = FontWeight.Bold
                         )
                     }
-                    Text(text = "PRIZE\n150 HK", fontWeight = FontWeight.Bold, color = Color(0xFF6E5100))
                 }
             }
         }
 
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Surface(
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(18.dp),
-                    color = Color(0xFFF1F8E9)
-                ) {
-                    Column(modifier = Modifier.padding(14.dp)) {
-                        Icon(imageVector = Icons.Filled.Public, contentDescription = null, tint = Color(0xFF2E7D32))
-                        Text(text = "GLOBAL RANK", fontSize = 11.sp)
-                        Text(text = "#241", fontWeight = FontWeight.Bold, fontSize = 28.sp)
-                    }
-                }
-                Surface(
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(18.dp),
-                    color = Color(0xFFE0F7FA)
-                ) {
-                    Column(modifier = Modifier.padding(14.dp)) {
-                        Icon(imageVector = Icons.Filled.Schedule, contentDescription = null, tint = Color(0xFF006A60))
-                        Text(text = "MATCHES", fontSize = 11.sp)
-                        Text(text = "${viewModel.matchedPairs}/$totalPairs", fontWeight = FontWeight.Bold, fontSize = 28.sp)
-                    }
-                }
-            }
+        if (countdownActive) {
+            PreGameCountdownOverlay(
+                countdown = countdownSeconds,
+                modifier = Modifier.fillMaxSize()
+            )
         }
+    }
 
-        if (viewModel.isGameOver) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = Color(0xFFFFEBEE)
-                ) {
-                    Text(
-                        text = "Game Over. Nyawa habis atau waktu habis.",
-                        modifier = Modifier.padding(16.dp),
-                        color = Color(0xFFD32F2F),
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Button(onClick = { navController.popBackStack() }, modifier = Modifier.fillMaxWidth()) {
-                    Text(text = "Kembali ke Games")
-                }
-            }
-        } else if (viewModel.isCompleted) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = Color(0xFFE8F5E9)
-                ) {
-                    Text(
-                        text = "Semua pasangan berhasil ditemukan!",
-                        modifier = Modifier.padding(16.dp),
-                        color = Color(0xFF2E7D32),
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Button(onClick = { navController.popBackStack() }, modifier = Modifier.fillMaxWidth()) {
-                    Text(text = "Kembali ke Games")
-                }
-            }
-        }
+    if (viewModel.isGameOver) {
+        CompletionDialog(
+            title = if (viewModel.isCompleted) "Misi Selesai" else "Game Over",
+            message = if (viewModel.isCompleted) {
+                "Semua pernyataan sudah dijawab."
+            } else {
+                "Waktu habis atau nyawa habis."
+            },
+            rewards = listOf(
+                CompletionReward("Skor", "${viewModel.score}"),
+                CompletionReward("Benar", "${viewModel.correctCount}"),
+                CompletionReward("Salah", "${viewModel.wrongCount}")
+            ),
+            primaryButtonText = "Kembali ke Games",
+            secondaryButtonText = "Main Lagi",
+            onPrimaryClick = { navController.popBackStack() },
+            onSecondaryClick = {
+                viewModel.resetGame()
+                remainingSeconds = GAME_DURATION_SECONDS
+                countdownActive = true
+                countdownSeconds = 3
+            },
+            onDismiss = { navController.popBackStack() },
+            accentColor = Color(0xFF2E7D32)
+        )
     }
 }

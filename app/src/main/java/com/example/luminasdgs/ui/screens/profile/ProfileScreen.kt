@@ -8,13 +8,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Eco
@@ -23,6 +22,7 @@ import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -40,12 +40,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.luminasdgs.navigation.Screen
 import com.example.luminasdgs.viewmodel.ProfileViewModel
 
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel = viewModel()) {
+fun ProfileScreen(
+    navController: NavController? = null,
+    viewModel: ProfileViewModel = viewModel()
+) {
     val profile = viewModel.profile
     val stats = listOf(
         StatItem("XP EARNED", "12,450", Icons.Filled.TaskAlt, Color(0xFF4CAF50)),
@@ -71,6 +76,10 @@ fun ProfileScreen(viewModel: ProfileViewModel = viewModel()) {
 
         item {
             StatsGrid(stats = stats)
+        }
+
+        item {
+            AchievementsSection(onOpen = { navController?.navigate(Screen.AchievementHub.route) })
         }
 
         item {
@@ -261,6 +270,54 @@ private fun AccountSettingsSection() {
             SettingsRow("Avatar Customization", Icons.Filled.Palette)
             SettingsRow("Notification Preferences", Icons.Filled.Notifications)
             SettingsRow("Sign Out", Icons.Filled.Logout, isDestructive = true)
+        }
+    }
+}
+
+@Composable
+private fun AchievementsSection(onOpen: () -> Unit) {
+    Card(
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        modifier = Modifier.clickable { onOpen() }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFFFFF3E0)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Stars,
+                        contentDescription = null,
+                        tint = Color(0xFFEF6C00)
+                    )
+                }
+                Spacer(modifier = Modifier.size(12.dp))
+                Column {
+                    Text(
+                        text = "Game Achievement",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = "Lihat hasil tiap permainan",
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    )
+                }
+            }
+            Icon(imageVector = Icons.Filled.ChevronRight, contentDescription = null, tint = Color(0xFF9E9E9E))
         }
     }
 }

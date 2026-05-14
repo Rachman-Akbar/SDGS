@@ -27,11 +27,15 @@ import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,44 +44,52 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.luminasdgs.ui.components.CompletionDialog
+import com.example.luminasdgs.ui.components.CompletionReward
 
 @Composable
 fun ActionsScreen() {
-    val categories = listOf("All", "Waste", "Energy", "Water", "Transport")
+    val categories = listOf("Semua", "Sampah", "Energi", "Air", "Transportasi")
     val actions = listOf(
         ActionTask(
-            title = "Use Public Transport",
-            description = "Skip the car and take the bus or train to reduce your carbon footprint today.",
+            id = 1,
+            title = "Pakai Transportasi Umum",
+            description = "Tinggalkan mobil hari ini dan pilih bus atau kereta untuk mengurangi emisi.",
             xp = 50,
             hk = 10,
             icon = Icons.Filled.DirectionsBus,
             accent = Color(0xFF2E7D32)
         ),
         ActionTask(
-            title = "Compost Food Scraps",
-            description = "Turn your organic waste into nutrient-rich soil for a healthier planet.",
+            id = 2,
+            title = "Kompos Sisa Makanan",
+            description = "Ubah sampah organik menjadi tanah subur untuk membantu tanaman tumbuh.",
             xp = 30,
             hk = 5,
             icon = Icons.Filled.Recycling,
             accent = Color(0xFF2E7D32)
         ),
         ActionTask(
-            title = "Switch to LED Bulbs",
-            description = "Replace one traditional bulb with an energy-efficient LED alternative.",
+            id = 3,
+            title = "Ganti ke Lampu LED",
+            description = "Ganti satu lampu biasa dengan LED yang lebih hemat energi.",
             xp = 25,
             hk = 8,
             icon = Icons.Filled.Lightbulb,
             accent = Color(0xFFF9A825)
         ),
         ActionTask(
-            title = "Carry Reusable Bottle",
-            description = "Avoid single-use plastic bottles today by carrying your own water.",
+            id = 4,
+            title = "Bawa Botol Minum Sendiri",
+            description = "Kurangi botol plastik sekali pakai dengan membawa botol isi ulang.",
             xp = 15,
             hk = 2,
             icon = Icons.Filled.WaterDrop,
             accent = Color(0xFF1565C0)
         )
     )
+    val completedIds = remember { mutableStateListOf<Int>() }
+    var selectedAction by remember { mutableStateOf<ActionTask?>(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -95,13 +107,13 @@ fun ActionsScreen() {
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
-                        text = "Real Actions",
+                        text = "Aksi Nyata",
                         fontSize = 28.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        text = "Small steps for you, giant leaps for the Earth.",
+                        text = "Langkah kecil untukmu, dampak besar untuk bumi.",
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
@@ -124,7 +136,14 @@ fun ActionsScreen() {
             }
 
             items(actions) { action ->
-                ActionCard(action = action)
+                ActionCard(
+                    action = action,
+                    isCompleted = completedIds.contains(action.id),
+                    onComplete = {
+                        if (!completedIds.contains(action.id)) completedIds.add(action.id)
+                        selectedAction = action
+                    }
+                )
             }
 
             item {
@@ -132,16 +151,24 @@ fun ActionsScreen() {
             }
         }
 
-        FloatingActionButton(
-            onClick = {},
-            containerColor = Color(0xFFFFD54F),
-            contentColor = Color(0xFF5D4100),
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 20.dp, bottom = 96.dp)
-        ) {
-            Icon(imageVector = Icons.Filled.Eco, contentDescription = null)
+        selectedAction?.let { action ->
+            CompletionDialog(
+                title = "Aksi Nyata Selesai",
+                message = action.title,
+                rewards = listOf(
+                    CompletionReward("XP", "+${action.xp} XP"),
+                    CompletionReward("Hero Koin", "+${action.hk} HK"),
+                    CompletionReward("Dampak", "Item kebiasaan hijau")
+                ),
+                primaryButtonText = "Lanjut",
+                secondaryButtonText = "Tutup",
+                onPrimaryClick = { selectedAction = null },
+                onSecondaryClick = { selectedAction = null },
+                onDismiss = { selectedAction = null },
+                accentColor = action.accent
+            )
         }
+
     }
 }
 
@@ -212,7 +239,11 @@ private fun CategoryPill(label: String, selected: Boolean) {
 }
 
 @Composable
-private fun ActionCard(action: ActionTask) {
+private fun ActionCard(
+    action: ActionTask,
+    isCompleted: Boolean,
+    onComplete: () -> Unit
+) {
     Card(
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -269,13 +300,14 @@ private fun ActionCard(action: ActionTask) {
             )
 
             Button(
-                onClick = {},
+                onClick = onComplete,
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(999.dp)
+                shape = RoundedCornerShape(999.dp),
+                enabled = !isCompleted
             ) {
                 Icon(imageVector = Icons.Filled.Recycling, contentDescription = null)
                 Spacer(modifier = Modifier.size(8.dp))
-                Text(text = "Done")
+                Text(text = if (isCompleted) "Selesai" else "Tandai Selesai")
             }
         }
     }
@@ -297,13 +329,13 @@ private fun WeeklyImpactCard() {
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
-                text = "Your Weekly Impact",
+                text = "Dampak Mingguanmu",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
             Text(
-                text = "You saved 12kg of CO2 this week. Keep going, Hero!",
+                text = "Kamu sudah menghemat 12kg CO2 minggu ini. Lanjutkan, Hero!",
                 fontSize = 13.sp,
                 color = Color.White.copy(alpha = 0.8f)
             )
@@ -312,6 +344,7 @@ private fun WeeklyImpactCard() {
 }
 
 private data class ActionTask(
+    val id: Int,
     val title: String,
     val description: String,
     val xp: Int,

@@ -1,6 +1,7 @@
 # Hero Quest Mini-Games Development Roadmap (2 Minggu)
 
 ## Overview
+
 Roadmap ini fokus pada stabilisasi core gameplay loop, persistensi data, dan polishing UX untuk meningkatkan retention dan user satisfaction. Diurutkan berdasarkan impact vs effort.
 
 ---
@@ -8,9 +9,11 @@ Roadmap ini fokus pada stabilisasi core gameplay loop, persistensi data, dan pol
 ## 🎯 Minggu 1: Foundation & Persistence
 
 ### 1.1 Data Persistence Layer (Priority: CRITICAL)
+
 **Target**: Sempurna simpan & restore progress pemain lintas session.
 
 **Scope**:
+
 - Buat data class untuk game state: `GameProgress.kt`
   - Level per game
   - High score per game
@@ -29,6 +32,7 @@ Roadmap ini fokus pada stabilisasi core gameplay loop, persistensi data, dan pol
 - Update Home/Profile screen untuk baca high score dari database
 
 **Files to Create/Modify**:
+
 ```
 app/src/main/java/com/example/luminasdgs/
 ├── data/
@@ -48,9 +52,11 @@ app/src/main/java/com/example/luminasdgs/
 ---
 
 ### 1.2 Difficulty Scaling & Balancing (Priority: HIGH)
+
 **Target**: Game tidak terlalu mudah di awal, tidak frustasi di tengah.
 
 **Scope**:
+
 - Tambah enum `Difficulty` ke setiap game (EASY, NORMAL, HARD)
 - Sesuaikan parameter per level:
   - **Quiz**: waktu/soal per difficulty
@@ -66,6 +72,7 @@ app/src/main/java/com/example/luminasdgs/
 - Update GameProgressViewModel untuk track completed levels & difficulty unlock
 
 **Files to Create/Modify**:
+
 ```
 app/src/main/java/com/example/luminasdgs/
 ├── model/Difficulty.kt (NEW)
@@ -82,9 +89,11 @@ app/src/main/java/com/example/luminasdgs/
 ---
 
 ### 1.3 Optimized Fail/Retry UX (Priority: HIGH)
+
 **Target**: Kurangi friction saat game over → retry.
 
 **Scope**:
+
 - Tambah `Game Over Modal` reusable:
   - Show: final score, XP earned, compare to high score
   - Tombol: "Try Again" (instan jump), "Back to Hub" (with confirm)
@@ -97,6 +106,7 @@ app/src/main/java/com/example/luminasdgs/
 - Test: dari game over modal ke ready play harus < 500ms
 
 **Files to Create/Modify**:
+
 ```
 app/src/main/java/com/example/luminasdgs/
 ├── ui/components/GameOverModal.kt (NEW)
@@ -113,10 +123,13 @@ app/src/main/java/com/example/luminasdgs/
 ---
 
 ### 1.4 Daily Missions / Goals (Priority: MEDIUM)
+
 **Target**: Player punya objective harian yang terarah + habit loop.
 
 **Scope**:
+
 - Buat `DailyMission` data class:
+
   ```kotlin
   data class DailyMission(
       val id: Int,
@@ -141,6 +154,7 @@ app/src/main/java/com/example/luminasdgs/
 - Implementasi timezone-aware reset (setiap hari UTC 00:00)
 
 **Files to Create/Modify**:
+
 ```
 app/src/main/java/com/example/luminasdgs/
 ├── data/model/
@@ -159,9 +173,11 @@ app/src/main/java/com/example/luminasdgs/
 ## 🎮 Minggu 2: Polish & Advanced Features
 
 ### 2.1 Tutorial Per Mini-Game (Priority: MEDIUM)
+
 **Target**: Pemain baru tahu cara main sebelum first play.
 
 **Scope**:
+
 - Buat `OnboardingGameScreen` reusable:
   - 3-4 slide per game (rules, contoh, tip)
   - Interactive demo (bukan static image)
@@ -169,12 +185,13 @@ app/src/main/java/com/example/luminasdgs/
 
 - Trigger logic:
   - Show saat first open game (cek flag di database)
-  - Set flag "tutorial_seen_{gameName}" setelah complete
+  - Set flag "tutorial*seen*{gameName}" setelah complete
   - Allow replay via "How to Play" button di game hub
 
 - Keep duration 20-40 detik agar tidak boring
 
 **Files to Create/Modify**:
+
 ```
 app/src/main/java/com/example/luminasdgs/
 ├── ui/screens/game/
@@ -191,9 +208,11 @@ app/src/main/java/com/example/luminasdgs/
 ---
 
 ### 2.2 Sound & Haptic Feedback (Priority: MEDIUM)
+
 **Target**: Game terasa lebih alive dan responsive.
 
 **Scope**:
+
 - Integrasikan media player untuk SFX:
   - res/raw/ folder dengan .wav/.mp3:
     - `correct.wav` (beep/ding positif, ~200ms)
@@ -213,6 +232,7 @@ app/src/main/java/com/example/luminasdgs/
   - Store preference di shared prefs
 
 **Files to Create/Modify**:
+
 ```
 app/src/main/java/com/example/luminasdgs/
 ├── res/raw/ (NEW - SFX assets)
@@ -231,9 +251,11 @@ app/src/main/java/com/example/luminasdgs/
 ---
 
 ### 2.3 Anti-Cheat & Reward Cap (Priority: MEDIUM)
+
 **Target**: Cegah farming abnormal, jaga ekonomi reward balanced.
 
 **Scope**:
+
 - Implementasi reward cap:
   - Max XP/HK per hari (e.g., 500 XP, 200 HK)
   - Track daily cumulative di database
@@ -252,6 +274,7 @@ app/src/main/java/com/example/luminasdgs/
 - Database log setiap reward claim untuk audit
 
 **Files to Create/Modify**:
+
 ```
 app/src/main/java/com/example/luminasdgs/
 ├── data/model/RewardLog.kt (NEW)
@@ -266,9 +289,11 @@ app/src/main/java/com/example/luminasdgs/
 ---
 
 ### 2.4 Analytics Tracking (Priority: LOW-MEDIUM)
+
 **Target**: Collect data untuk tuning difficulty, UX, retention.
 
 **Scope**:
+
 - Track key metrics:
   - Game start/completion/fail (per game, per difficulty)
   - Time to complete
@@ -283,6 +308,7 @@ app/src/main/java/com/example/luminasdgs/
 - Dashboard simple di Profile (optional): show personal stats
 
 **Files to Create/Modify**:
+
 ```
 app/src/main/java/com/example/luminasdgs/
 ├── data/model/Analytics.kt (NEW)
@@ -297,9 +323,11 @@ app/src/main/java/com/example/luminasdgs/
 ---
 
 ### 2.5 Accessibility Improvements (Priority: MEDIUM)
+
 **Target**: Game inclusive untuk berbagai kemampuan pengguna.
 
 **Scope**:
+
 - Text size option:
   - Setting: small/normal/large
   - Apply ke seluruh text di game screens
@@ -320,6 +348,7 @@ app/src/main/java/com/example/luminasdgs/
   - Semantic structure jelas
 
 **Files to Create/Modify**:
+
 ```
 app/src/main/java/com/example/luminasdgs/
 ├── utils/AccessibilityPreferences.kt (NEW)
@@ -334,14 +363,14 @@ app/src/main/java/com/example/luminasdgs/
 
 ## 📊 Success Metrics (End of Week 2)
 
-| Metrik | Target | Cara Ukur |
-|--------|--------|-----------|
-| Retention (D1) | > 60% | Analytics table |
-| Avg Session Length | > 5 min | AnalyticsManager log |
-| Game Completion Rate | > 70% | Game logs (complete vs fail ratio) |
-| High Score Improvement | +30% | Compare week 1 vs week 2 |
-| Crash Rate | < 0.1% | Crash logs, Firebase |
-| Daily Mission Completion | > 50% | DailyMission table |
+| Metrik                   | Target  | Cara Ukur                          |
+| ------------------------ | ------- | ---------------------------------- |
+| Retention (D1)           | > 60%   | Analytics table                    |
+| Avg Session Length       | > 5 min | AnalyticsManager log               |
+| Game Completion Rate     | > 70%   | Game logs (complete vs fail ratio) |
+| High Score Improvement   | +30%    | Compare week 1 vs week 2           |
+| Crash Rate               | < 0.1%  | Crash logs, Firebase               |
+| Daily Mission Completion | > 50%   | DailyMission table                 |
 
 ---
 

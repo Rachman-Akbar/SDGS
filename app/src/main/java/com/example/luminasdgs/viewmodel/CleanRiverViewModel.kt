@@ -15,15 +15,19 @@ class CleanRiverViewModel : ViewModel() {
         RiverItem("Ikan nila", "fish"),
         RiverItem("Ikan mas", "fish"),
         RiverItem("Ikan kecil", "fish")
-    )
+    ).shuffled()
 
     var currentItem by mutableStateOf<RiverItem?>(null)
+        private set
+    var processedCount by mutableStateOf(0)
         private set
     var score by mutableStateOf(0)
         private set
     var life by mutableStateOf(3)
         private set
     var lastActionWasCorrect by mutableStateOf<Boolean?>(null)
+        private set
+    var isCompleted by mutableStateOf(false)
         private set
     var isGameOver by mutableStateOf(false)
         private set
@@ -48,6 +52,7 @@ class CleanRiverViewModel : ViewModel() {
                 return
             }
         }
+        processedCount += 1
         nextItem()
     }
 
@@ -66,6 +71,7 @@ class CleanRiverViewModel : ViewModel() {
             score += 2
             lastActionWasCorrect = true
         }
+        processedCount += 1
         nextItem()
     }
 
@@ -78,11 +84,17 @@ class CleanRiverViewModel : ViewModel() {
     }
 
     private fun nextItem() {
+        if (processedCount >= items.size) {
+            isCompleted = true
+            isGameOver = true
+            currentItem = null
+            return
+        }
         if (life <= 0) {
             isGameOver = true
             currentItem = null
             return
         }
-        currentItem = items.random()
+        currentItem = items.getOrNull(processedCount)
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.luminasdgs.navigation.Screen
+import com.example.luminasdgs.ui.screens.game.components.GameBackground
 
 @Composable
 fun GameScreen(navController: NavController) {
@@ -59,23 +61,23 @@ fun GameScreen(navController: NavController) {
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuAZFiJX7tPbL4VylQVnRdGt24rzQQju02FSNPXxANRZB37aOItZ_JbLUfUOcyDV6PLqxt70xbHW2er0dLQnjvPGX72I_CZGDFgzEw5OC0R7C6pfjyfwJZkfD0IKzaD_Tq_pg1YV9j8IqEpZgDFQPhzn1NF4cJW7gypwgNs8fefpdOSoSEqfvNmUWKSrH-QeF9oXL-4-O-DOSbtcWMWjomc6v4ff2NlSTrrrkZAhrl-WxZGPP4b_CzceXRY--iJTrVhhflGZ4OHq6w",
             onClick = { navController.navigate(Screen.TrashSort.route) }
         ),
+        // GameCardItem(
+        //     title = "Clean The River",
+        //     tag = "WATER CARE",
+        //     reward = "+75 HK",
+        //     tagColor = Color(0xFF1565C0),
+        //     tagBackground = Color(0xFFE3F2FD),
+        //     imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuAbIaI9dqIVYkptACU9eFq7BrYMGBcpzHVGkVhGRnGyTmj5zVcV-MYGywQF39o12SCP6loj7eVQwzqkukoZg7oVASH8IpfC72rzRqjrQrBGXsPJimG6V2kVB5GqqWb9Ce1pwt49BfLf9RPmAaR1E1MrLLhrqjAnJjmszBGSdiErWtVkl-l6Ln-ZmDWzjEBuh0z4W3pCHE6_hbzWbMCdVyoxs1KQW2-n-w7MX32RpYjcF23g9OMs-t2UefQ5ssogaLZN56deAuikvQ",
+        //     onClick = { navController.navigate(Screen.CleanRiver.route) }
+        // ),
         GameCardItem(
-            title = "Tanam Pohon",
-            tag = "BIODIVERSITY",
-            reward = "+100 HK",
+            title = "Myth or Fact",
+            tag = "ECO FACTS",
+            reward = "+35 HK",
             tagColor = Color(0xFF2E7D32),
             tagBackground = Color(0xFFE8F5E9),
             imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuDvn4s6pTC1noMopmtFzMn15ek6cTTp5MUITbhb-6NZolZumR-iRKxyLQNZDHHWFQs4vsBEF0jW6Ln1K_Fnq9BjhvnJhgeCFceYjuMbigajCFF46HPe1lZV9aofWSiPpP2KyRc7wTC4Mfd8sTeHRU8AirfnbErfB64-xOPJ3TzjrbyZFyH623S_PLFNuE48BecD4GhZdduPGhf23Mr1aFVDoYy6U87LQeZ06UbIlmXNIknwCAG8suzfr-qj5VlBoMVabrOLb37Qvw",
-            onClick = { navController.navigate(Screen.Tree.route) }
-        ),
-        GameCardItem(
-            title = "Clean The River",
-            tag = "WATER CARE",
-            reward = "+75 HK",
-            tagColor = Color(0xFF1565C0),
-            tagBackground = Color(0xFFE3F2FD),
-            imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuAbIaI9dqIVYkptACU9eFq7BrYMGBcpzHVGkVhGRnGyTmj5zVcV-MYGywQF39o12SCP6loj7eVQwzqkukoZg7oVASH8IpfC72rzRqjrQrBGXsPJimG6V2kVB5GqqWb9Ce1pwt49BfLf9RPmAaR1E1MrLLhrqjAnJjmszBGSdiErWtVkl-l6Ln-ZmDWzjEBuh0z4W3pCHE6_hbzWbMCdVyoxs1KQW2-n-w7MX32RpYjcF23g9OMs-t2UefQ5ssogaLZN56deAuikvQ",
-            onClick = { navController.navigate(Screen.CleanRiver.route) }
+            onClick = { navController.navigate(Screen.MythFact.route) }
         ),
         GameCardItem(
             title = "SDG Match",
@@ -88,33 +90,36 @@ fun GameScreen(navController: NavController) {
         )
     )
 
-    LazyColumn(
-        modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(bottom = 120.dp)
-    ) {
-        item {
-            GamesTopBar()
-        }
-
-        item {
-            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(
-                    text = "Arcade Hub",
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = "Play for the planet and earn Hero Koins!",
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                )
+    Box(modifier = Modifier.fillMaxSize()) {
+        GameBackground(modifier = Modifier.fillMaxSize(), alpha = 0.06f)
+        LazyColumn(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(bottom = 120.dp)
+        ) {
+            item {
+                GamesTopBar()
             }
-        }
 
-        items(games) { game ->
-            GameCard(game = game)
+            item {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(
+                        text = "Arcade Hub",
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = "Play for the planet and earn Hero Koins!",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    )
+                }
+            }
+
+            items(games) { game ->
+                GameCard(game = game)
+            }
         }
     }
 }

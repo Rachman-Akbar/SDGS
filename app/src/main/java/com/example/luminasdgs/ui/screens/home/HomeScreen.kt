@@ -43,7 +43,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.luminasdgs.ui.components.QuestCard
 import com.example.luminasdgs.viewmodel.HomeViewModel
 
 @Composable
@@ -55,6 +54,20 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
     val levelProgress = 0.85f
     val dailyStreak = 7
     val communityProgress = 0.7f
+    val realActions = listOf(
+        HomeActionPreview(
+            title = "Pakai transportasi umum",
+            description = "Hemat emisi dan dapatkan bonus kecil kalau kamu melakukannya hari ini.",
+            reward = "+20 XP • +5 HK",
+            accent = Color(0xFF2E7D32)
+        ),
+        HomeActionPreview(
+            title = "Bawa botol minum sendiri",
+            description = "Satu aksi sederhana yang bisa langsung menambah poin kebiasaan hijau.",
+            reward = "+10 XP • +1 Air",
+            accent = Color(0xFF1565C0)
+        )
+    )
 
     LaunchedEffect(viewModel.rewardMessage) {
         val message = viewModel.rewardMessage
@@ -103,14 +116,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
             }
 
             item {
-                DailyMissionsHeader()
-            }
-
-            items(viewModel.quests) { quest ->
-                QuestCard(
-                    quest = quest,
-                    onClaim = { viewModel.claimQuest(it.id) }
-                )
+                RealActionsPreviewSection(actions = realActions)
             }
 
             item {
@@ -336,23 +342,75 @@ private fun BentoStatsRow(streakDays: Int, communityProgress: Float) {
 }
 
 @Composable
-private fun DailyMissionsHeader() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "Daily Missions",
-            style = MaterialTheme.typography.titleMedium
-        )
-        Text(
-            text = "VIEW ALL",
-            fontSize = 11.sp,
-            letterSpacing = 1.sp,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.clickable(enabled = false) {}
-        )
+private fun RealActionsPreviewSection(actions: List<HomeActionPreview>) {
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Aksi Nyata Pilihan",
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = "LIHAT SEMUA",
+                fontSize = 11.sp,
+                letterSpacing = 1.sp,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.clickable(enabled = false) {}
+            )
+        }
+
+        actions.forEach { action ->
+            Card(
+                shape = RoundedCornerShape(18.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clip(CircleShape)
+                                .background(action.accent.copy(alpha = 0.15f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            androidx.compose.material3.Icon(
+                                imageVector = Icons.Filled.Public,
+                                contentDescription = null,
+                                tint = action.accent
+                            )
+                        }
+                        Text(
+                            text = action.reward,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = action.accent
+                        )
+                    }
+
+                    Text(
+                        text = action.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = action.description,
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -455,3 +513,10 @@ private fun FeaturedGoalCard() {
         }
     }
 }
+
+private data class HomeActionPreview(
+    val title: String,
+    val description: String,
+    val reward: String,
+    val accent: Color
+)

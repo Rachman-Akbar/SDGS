@@ -24,6 +24,8 @@ class QuizViewModel : ViewModel() {
         private set
     var lastExplanation by mutableStateOf<String?>(null)
         private set
+    var isAnswerLocked by mutableStateOf(false)
+        private set
     var isQuizStarted by mutableStateOf(false)
         private set
 
@@ -42,10 +44,12 @@ class QuizViewModel : ViewModel() {
         answeredCount = 0
         feedbackMessage = null
         lastExplanation = null
+        isAnswerLocked = false
         isQuizStarted = true
     }
 
     fun answerQuestion(answer: String) {
+        if (isAnswerLocked) return
         val question = currentQuestion ?: return
         val isCorrect = answer == question.correctAnswer
 
@@ -58,6 +62,14 @@ class QuizViewModel : ViewModel() {
         }
         lastExplanation = question.explanation
         answeredCount += 1
+        isAnswerLocked = true
+    }
+
+    fun advanceQuestion() {
+        if (!isAnswerLocked) return
         currentIndex += 1
+        feedbackMessage = null
+        lastExplanation = null
+        isAnswerLocked = false
     }
 }

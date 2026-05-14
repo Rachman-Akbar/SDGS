@@ -1,10 +1,5 @@
 package com.example.luminasdgs.ui.screens.game.river
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,8 +28,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,59 +43,81 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.luminasdgs.ui.screens.game.components.ImmersiveGameHeader
-import com.example.luminasdgs.ui.screens.game.components.formatTimer
-import com.example.luminasdgs.ui.screens.game.components.rememberCountdownTimer
+import com.example.luminasdgs.ui.components.CompletionDialog
+import com.example.luminasdgs.ui.components.CompletionReward
+import com.example.luminasdgs.ui.screens.game.components.CompactGameHeader
+import com.example.luminasdgs.ui.screens.game.components.GameBackground
+import com.example.luminasdgs.ui.screens.game.components.PreGameCountdownOverlay
 import com.example.luminasdgs.viewmodel.CleanRiverViewModel
 import kotlinx.coroutines.delay
+
+private const val GAME_DURATION_SECONDS = 60
+private const val CORRECT_TIME_BONUS_SECONDS = 4
+private const val MAX_TIME_SECONDS = 120
 
 @Composable
 fun CleanRiverScreen(
     navController: NavController,
     viewModel: CleanRiverViewModel = viewModel()
 ) {
-    val collected = (viewModel.score.coerceAtLeast(0) / 10)
-    val progress = (collected / 25f).coerceIn(0f, 1f)
-    val timerSeconds = rememberCountdownTimer(
-        initialSeconds = 48,
-        isRunning = !viewModel.isGameOver,
-        resetKey = Unit,
-        onFinished = { viewModel.onTimeout() }
-    )
-    var showCombo by remember { mutableStateOf(false) }
+    var remainingSeconds by rememberSaveable { mutableIntStateOf(GAME_DURATION_SECONDS) }
+    var countdownActive by rememberSaveable { mutableStateOf(true) }
+    var countdownSeconds by rememberSaveable { mutableIntStateOf(3) }
+    val timeProgress = (remainingSeconds.toFloat() / GAME_DURATION_SECONDS).coerceIn(0f, 1f)
+    val isPlaying = !viewModel.isGameOver && remainingSeconds > 0 && !countdownActive
+
+    LaunchedEffect(countdownActive, countdownSeconds) {
+        if (!countdownActive) return@LaunchedEffect
+        if (countdownSeconds <= 0) {
+            countdownActive = false
+            return@LaunchedEffect
+        }
+        delay(1_000L)
+        countdownSeconds -= 1
+    }
+
+    LaunchedEffect(isPlaying) {
+        while (isPlaying && remainingSeconds > 0) {
+            delay(1_000L)
+            remainingSeconds = (remainingSeconds - 1).coerceAtLeast(0)
+            if (remainingSeconds == 0) {
+                viewModel.onTimeout()
+            }
+        }
+    }
 
     LaunchedEffect(viewModel.lastActionWasCorrect) {
-        if (viewModel.lastActionWasCorrect == true) {
-            showCombo = true
-            delay(800)
-            showCombo = false
+        if (viewModel.lastActionWasCorrect == true && !viewModel.isGameOver) {
+            remainingSeconds = (remainingSeconds + CORRECT_TIME_BONUS_SECONDS).coerceAtMost(MAX_TIME_SECONDS)
         }
     }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(Color(0xFFE0F2F1), Color(0xFFB2DFDB))
-                )
-            )
-            .padding(horizontal = 16.dp, vertical = 20.dp)
     ) {
+        GameBackground(modifier = Modifier.fillMaxSize(), alpha = 0.06f)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color(0xFFE0F2F1), Color(0xFFB2DFDB))
+                    )
+                )
+        )
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 20.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            ImmersiveGameHeader(
-                title = "Clean The\nRiver",
-                subtitle = "Ambil sampah, hindari ikan.",
-                timer = formatTimer(timerSeconds),
-                score = viewModel.score.toString(),
-                target = "$collected/25",
+            CompactGameHeader(
+                progress = timeProgress,
                 lives = viewModel.life.coerceIn(0, 3),
-                xpGain = "+50 XP",
-                pointGain = "+25 HK",
-                progress = progress,
+                statLabel = "Skor",
+                statValue = viewModel.score.toString(),
+                instruction = "Ambil sampah, hindari ikan.",
                 onExit = { navController.popBackStack() },
                 onSettings = {}
             )
@@ -136,7 +155,11 @@ fun CleanRiverScreen(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         val current = viewModel.currentItem
-                        if (current == null) {
+                        if (current == null && viewModel.isCompleted) {
+                            Text(text = "Misi Sungai Selesai", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                            Text(text = "Skor: ${viewModel.score}")
+                            Button(onClick = { navController.popBackStack() }) { Text(text = "Kembali") }
+                        } else if (current == null) {
                             Text(text = "Game Over", fontSize = 22.sp, fontWeight = FontWeight.Bold)
                             Text(text = "Skor: ${viewModel.score}")
                             Button(onClick = { navController.popBackStack() }) { Text(text = "Kembali") }
@@ -204,34 +227,44 @@ fun CleanRiverScreen(
                         shape = RoundedCornerShape(18.dp),
                         colors = CardDefaults.cardColors(containerColor = Color(0xFF80DEEA))
                     ) {
-                        if (showCombo) {
-                            Row(
-                                modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(imageVector = Icons.Filled.Eco, contentDescription = null, tint = Color(0xFF00695C))
-                                Text(
-                                    text = "  COMBO BONUS +25 Hero Koins!",
-                                    color = Color(0xFF00695C),
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                        } else {
-                            Row(
-                                modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(imageVector = Icons.Filled.Eco, contentDescription = null, tint = Color(0xFF00695C))
-                                Text(
-                                    text = "  Collect trash for combo",
-                                    color = Color(0xFF00695C),
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                            }
+                        Row(
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(imageVector = Icons.Filled.Eco, contentDescription = null, tint = Color(0xFF00695C))
+                            Text(
+                                text = "  Collect trash for combo",
+                                color = Color(0xFF00695C),
+                                fontWeight = FontWeight.SemiBold
+                            )
                         }
                     }
                 }
             }
+        }
+
+        if (viewModel.isCompleted) {
+            CompletionDialog(
+                title = "Clean River Selesai",
+                message = "Kamu berhasil membersihkan seluruh aliran sungai.",
+                rewards = listOf(
+                    CompletionReward("XP", "+50 XP"),
+                    CompletionReward("Hero Koin", "+25 HK"),
+                    CompletionReward("Bonus", "Air + Pupuk")
+                ),
+                primaryButtonText = "Kembali ke Games",
+                secondaryButtonText = null,
+                onPrimaryClick = { navController.popBackStack() },
+                onDismiss = { navController.popBackStack() },
+                accentColor = Color(0xFF00695C)
+            )
+        }
+
+        if (countdownActive) {
+            PreGameCountdownOverlay(
+                countdown = countdownSeconds,
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }
